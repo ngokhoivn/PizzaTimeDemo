@@ -361,12 +361,12 @@
         document.addEventListener('DOMContentLoaded', function () {
             // Dữ liệu cửa hàng cho timeline
             const stores = [
-                { id: 1, name: "Pizza Time Quy Nhơn", image: "/api/placeholder/60/60" },
-                { id: 2, name: "Pizza Time Sài Gòn", image: "/api/placeholder/60/60" },
-                { id: 3, name: "Pizza Time Hà Nội", image: "/api/placeholder/60/60" },
-                { id: 4, name: "Pizza Time Đà Nẵng", image: "/api/placeholder/60/60" },
+                { id: 1, name: "Pizza Time Diên Hồng", image: "/api/placeholder/60/60" },
+                { id: 2, name: "Pizza Time Nguyễn Huệ", image: "/api/placeholder/60/60" },
+                { id: 3, name: "Pizza Time Hà Thanh", image: "/api/placeholder/60/60" },
+                { id: 4, name: "Pizza Time Tuy Hòa", image: "/api/placeholder/60/60" },
                 { id: 5, name: "Pizza Time Nha Trang", image: "/api/placeholder/60/60" },
-                { id: 6, name: "Pizza Time Huế", image: "/api/placeholder/60/60" }
+                { id: 6, name: "Pizza Time Đà Nẵng", image: "/api/placeholder/60/60" }
             ];
 
             // Dữ liệu combo
@@ -375,67 +375,67 @@
                     id: 1,
                     name: "Combo Siêu Tiết Kiệm",
                     description: "1 Pizza (size M) + 2 Nước ngọt + 1 Khoai tây chiên chỉ 149K",
-                    image: "/api/placeholder/400/180"
+                    image: "images/Combo/Combo1.jfif"
                 },
                 {
                     id: 2,
                     name: "Combo Gia Đình",
                     description: "2 Pizza (size L) + 4 Nước ngọt + 2 Món ăn kèm chỉ 299K",
-                    image: "/api/placeholder/400/180"
+                    image: "images/Combo/Combo2.jpg"
                 },
                 {
                     id: 3,
                     name: "Combo Đôi",
                     description: "1 Pizza (size M) + 2 Nước ngọt + 1 Bánh mì bơ tỏi chỉ 169K",
-                    image: "/api/placeholder/400/180"
+                    image: "images/Combo/Combo7.jpg"
                 },
                 {
                     id: 4,
                     name: "Combo Party",
                     description: "3 Pizza (size L) + 6 Nước ngọt + 3 Món ăn kèm chỉ 459K",
-                    image: "/api/placeholder/400/180"
+                    image: "images/Combo/Combo8.jpg"
                 },
                 {
                     id: 5,
                     name: "Combo Lễ Siêu Tiết Kiệm",
                     description: "Giảm ngay 30% cho tất cả các đơn từ 200K",
-                    image: "/api/placeholder/400/180"
+                    image: "images/Combo/Combo2.jpg"
                 }
             ];
 
             // Dữ liệu món chính
             const mainDishes = [
-                { id: 1, name: "Pizza Hải Sản", price: 89000, image: "/api/placeholder/100/100" },
-                { id: 2, name: "Pizza Bò", price: 79000, image: "/api/placeholder/100/100" },
-                { id: 3, name: "Pizza Gà", price: 75000, image: "/api/placeholder/100/100" },
-                { id: 4, name: "Pizza Rau Củ", price: 69000, image: "/api/placeholder/100/100" },
-                { id: 5, name: "Pizza Thập Cẩm", price: 89000, image: "/api/placeholder/100/100" },
-                { id: 6, name: "Pizza Hawaii", price: 85000, image: "/api/placeholder/100/100" },
-                { id: 7, name: "Pizza Bacon", price: 89000, image: "/api/placeholder/100/100" },
-                { id: 8, name: "Pizza Tôm", price: 89000, image: "/api/placeholder/100/100" },
-                { id: 9, name: "Pizza Ý", price: 95000, image: "/api/placeholder/100/100" }
+                { id: 1, name: "Pizza Hải Sản", price: 89000, image: "images/MainDishes/PepperoniPizza.jpg" },
+                { id: 2, name: "Pizza Bò", price: 79000, image: "images/MainDishes/PizzaCaNgu.jpg" },
+                { id: 3, name: "Pizza Gà", price: 75000, image: "images/MainDishes/PepperoniPizza.jpg" },
+                { id: 4, name: "Pizza Rau Củ", price: 69000, image: "images/MainDishes/PizzaCaNgu.jpg" },
+                { id: 5, name: "Pizza Thập Cẩm", price: 89000, image: "images/MainDishes/PepperoniPizza.jpg" },
+                { id: 6, name: "Pizza Hawaii", price: 85000, image: "images/MainDishes/PizzaCaNgu.jpg" },
+                { id: 7, name: "Pizza Bacon", price: 89000, image: "images/MainDishes/PepperoniPizza.jpg" },
+                { id: 8, name: "Pizza Tôm", price: 89000, image: "images/MainDishes/PizzaCaNgu.jpg" },
+                { id: 9, name: "Pizza Ý", price: 95000, image: "images/MainDishes/PepperoniPizza.jpg" }
             ];
 
             // Dữ liệu món ăn nhẹ
             const snacks = [
-                { id: 1, name: "Khoai Tây Chiên", price: 39000, image: "/api/placeholder/100/100" },
-                { id: 2, name: "Bánh Mì Bơ Tỏi", price: 29000, image: "/api/placeholder/100/100" },
-                { id: 3, name: "Cánh Gà", price: 59000, image: "/api/placeholder/100/100" },
-                { id: 4, name: "Salad", price: 35000, image: "/api/placeholder/100/100" },
-                { id: 5, name: "Mực Chiên", price: 65000, image: "/api/placeholder/100/100" },
-                { id: 6, name: "Xúc Xích", price: 45000, image: "/api/placeholder/100/100" }
+                { id: 1, name: "Khoai Tây Chiên", price: 39000, image: "images/Snacks/khoai_tay_chien.jfif" },
+                { id: 2, name: "Mì Ý Đút Lò", price: 29000, image: "images/Snacks/mi_y_dut_lo.jpg" },
+                { id: 3, name: "Gà Sốt Cay", price: 59000, image: "images/Snacks/ga_sot_cay.webp" },
+                { id: 4, name: "Salad Cá Ngừ", price: 35000, image: "images/Snacks/salad_ca_ngu.jfif" },
+                { id: 5, name: "Tok Lắc Phô Mai", price: 65000, image: "images/Snacks/tok_lac_pho_mai.jpg" },
+                { id: 6, name: "Xúc Xích", price: 45000, image: "images/Snacks/banh_mi_bo_toi.jfif" }
             ];
 
             // Dữ liệu nước uống
             const drinks = [
-                { id: 1, name: "Coca Cola", price: 15000, image: "/api/placeholder/100/100" },
-                { id: 2, name: "Pepsi", price: 15000, image: "/api/placeholder/100/100" },
-                { id: 3, name: "Sprite", price: 15000, image: "/api/placeholder/100/100" },
-                { id: 4, name: "Fanta", price: 15000, image: "/api/placeholder/100/100" },
-                { id: 5, name: "Trà Đào", price: 25000, image: "/api/placeholder/100/100" },
-                { id: 6, name: "Trà Chanh", price: 20000, image: "/api/placeholder/100/100" },
-                { id: 7, name: "Nước Suối", price: 10000, image: "/api/placeholder/100/100" },
-                { id: 8, name: "Nước Cam", price: 25000, image: "/api/placeholder/100/100" }
+                { id: 1, name: "Coca Cola", price: 15000, image: "images/Drinks/cocacola.webp" },
+                { id: 2, name: "Pepsi", price: 15000, image: "images/Drinks/pepsi.webp" },
+                { id: 3, name: "Sprite", price: 15000, image: "images/Drinks/sprite.webp" },
+                { id: 4, name: "Fanta", price: 15000, image: "images/Drinks/fanta.jpg" },
+                { id: 5, name: "Trà Đào", price: 25000, image: "images/Drinks/tradao.avif" },
+                { id: 6, name: "Trà Chanh", price: 20000, image: "images/Drinks/trachanh.avif" },
+                { id: 7, name: "Nước Suối", price: 10000, image: "images/Drinks/nuocsuoi.jpg" },
+                { id: 8, name: "Nước Cam", price: 25000, image: "images/Drinks/nuoccam.jpg" }
             ];
 
             // Biến giỏ hàng
