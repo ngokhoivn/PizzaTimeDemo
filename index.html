@@ -395,6 +395,13 @@
             color: white;
         }
 
+        #closeThankYouBtn {
+            display: block;
+            margin: 20px auto 0; /* Căn giữa và giữ margin-top */
+            width: auto; /* Ghi đè width: 48% */
+            padding: 12px 30px; /* Điều chỉnh padding để nút trông cân đối */
+        }
+
         .empty-cart {
             text-align: center;
             padding: 30px;
@@ -414,6 +421,30 @@
             z-index: 300;
             display: none;
         }
+
+        .quantity-controls {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .quantity-btn {
+            width: 28px;
+            height: 28px;
+            border: 1px solid #ddd;
+            background-color: #f8f8f8;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            cursor: pointer;
+            font-size: 1rem;
+        }
+
+        .quantity {
+            font-weight: 600;
+        }
     </style>
 </head>
 <body>
@@ -423,34 +454,14 @@
     </header>
 
     <!-- Timeline (Store Selector) -->
-    <div class="timeline-container">
-        <div class="timeline" id="storeTimeline">
-            <div class="store active" data-store-id="1">
-                <div class="store-logo">🍕</div>
-                <div class="store-name">Pizza Hut</div>
-            </div>
-            <div class="store" data-store-id="2">
-                <div class="store-logo">🍕</div>
-                <div class="store-name">Domino's</div>
-            </div>
-            <div class="store" data-store-id="3">
-                <div class="store-logo">🍕</div>
-                <div class="store-name">The Pizza</div>
-            </div>
-            <div class="store" data-store-id="4">
-                <div class="store-logo">🍕</div>
-                <div class="store-name">Pizza 4P's</div>
-            </div>
-            <div class="store" data-store-id="5">
-                <div class="store-logo">🍕</div>
-                <div class="store-name">Pizza Express</div>
-            </div>
-            <div class="store" data-store-id="6">
-                <div class="store-logo">🍕</div>
-                <div class="store-name">Al Fresco's</div>
-            </div>
+    <div class="store" data-store-id="1">
+        <div class="store-bg">
+            <img src="images/Timeline/Timeline.jpg" alt="Pizza Time Background">
         </div>
+        <div class="store-logo">🍕</div>
+        <div class="store-name">Pizza Time</div>
     </div>
+
 
     <!-- Combo Hot Section -->
     <h2 class="section-title">Combo Hot</h2>
@@ -721,6 +732,16 @@
     <!-- Toast Notification -->
     <div class="toast" id="toast"></div>
 
+    <!-- Thank You Modal -->
+    <div class="modal" id="thankYouModal">
+        <div class="modal-content" style="text-align:center; padding:30px;">
+            <h2 style="color: #e81c23;">🎉 Cảm ơn bạn!</h2>
+            <p>Đơn hàng của bạn đã được nhận và đang xử lý.</p>
+            <button class="modal-btn confirm-btn" id="closeThankYouBtn" style="margin-top:20px;">Đóng</button>
+        </div>
+    </div>
+
+
     <script>
         // Store selection
         const stores = document.querySelectorAll('.store');
@@ -966,6 +987,12 @@
         const cart = {};
         const cartCount = document.getElementById('cartCount');
         const cartBtn = document.getElementById('cartBtn');
+        if (cartBtn) {
+            cartBtn.addEventListener('click', () => {
+                updateCartModal();
+                cartModal.style.display = 'flex';
+            });
+        }
         const cartModal = document.getElementById('cartModal');
         const cartItems = document.getElementById('cartItems');
         const closeCartBtn = document.getElementById('closeCartBtn');
@@ -1050,7 +1077,6 @@
         // Update cart modal content
         function updateCartModal() {
             cartItems.innerHTML = '';
-
             const totalItems = Object.keys(cart).length;
 
             if (totalItems === 0) {
@@ -1062,7 +1088,7 @@
             confirmOrderBtn.disabled = false;
             let totalPrice = 0;
 
-            Object.values(cart).forEach(item => {
+            Object.entries(cart).forEach(([itemId, item]) => {
                 if (item.quantity > 0) {
                     const itemTotal = item.price * item.quantity;
                     totalPrice += itemTotal;
@@ -1070,14 +1096,60 @@
                     const cartItemElement = document.createElement('div');
                     cartItemElement.className = 'cart-item';
                     cartItemElement.innerHTML = `
-                    <div class="cart-item-info">
-                        <div class="cart-item-name">${item.name}</div>
-                        <div class="cart-item-quantity">SL: ${item.quantity}</div>
-                    </div>
-                    <div class="cart-item-price">${formatPrice(itemTotal)}</div>
-                `;
+                        <div class="cart-item-info">
+                            <div class="cart-item-name">${item.name}</div>
+                            <div class="cart-item-quantity">
+                                SL:
+                                <div class="quantity-controls">
+                                    <div class="quantity-btn minus" data-item-id="${itemId}">-</div>
+                                    <div class="quantity" id="cart-qty-${itemId}">${item.quantity}</div>
+                                    <div class="quantity-btn plus" data-item-id="${itemId}">+</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="cart-item-price">${formatPrice(itemTotal)}</div>
+                    `;
 
                     cartItems.appendChild(cartItemElement);
+
+                    // Thêm sự kiện click cho các nút +/- trong modal
+                    const modalPlusBtns = cartItemElement.querySelectorAll('.quantity-btn.plus');
+                    const modalMinusBtns = cartItemElement.querySelectorAll('.quantity-btn.minus');
+
+                    modalPlusBtns.forEach(btn => {
+                        btn.addEventListener('click', (e) => {
+                            e.stopPropagation();
+                            const itemId = btn.getAttribute('data-item-id');
+                            cart[itemId].quantity++;
+                            document.getElementById(`qty-${itemId}`).textContent = cart[itemId].quantity;
+                            document.getElementById(`cart-qty-${itemId}`).textContent = cart[itemId].quantity;
+                            updateCartCount();
+                            saveCart();
+                            updateCartModal(); // Cập nhật lại modal để tính lại tổng tiền
+                        });
+                    });
+
+                    modalMinusBtns.forEach(btn => {
+                        btn.addEventListener('click', (e) => {
+                            e.stopPropagation();
+                            const itemId = btn.getAttribute('data-item-id');
+                            if (cart[itemId].quantity > 0) {
+                                cart[itemId].quantity--;
+                                document.getElementById(`qty-${itemId}`).textContent = cart[itemId].quantity;
+                                document.getElementById(`cart-qty-${itemId}`).textContent = cart[itemId].quantity;
+
+                                if (cart[itemId].quantity === 0) {
+                                    delete cart[itemId];
+                                    updateCartModal(); // Cập nhật lại modal
+                                    return;
+                                }
+
+                                updateCartCount();
+                                saveCart();
+                                updateCartModal(); // Cập nhật lại modal để tính lại tổng tiền
+                            }
+                        });
+                    });
                 }
             });
 
@@ -1085,12 +1157,35 @@
             const totalElement = document.createElement('div');
             totalElement.className = 'cart-total';
             totalElement.innerHTML = `
-            <div>Tổng cộng:</div>
-            <div>${formatPrice(totalPrice)}</div>
-        `;
+                <div>Tổng cộng:</div>
+                <div>${formatPrice(totalPrice)}</div>
+            `;
 
             cartItems.appendChild(totalElement);
         }
+
+        cartItems.addEventListener('input', function (e) {
+            if (e.target.classList.contains('cart-input')) {
+                const itemId = e.target.getAttribute('data-item-id');
+                const newQty = parseInt(e.target.value);
+
+                if (!isNaN(newQty) && newQty >= 0) {
+                    if (cart[itemId]) {
+                        cart[itemId].quantity = newQty;
+
+                        // Nếu số lượng = 0 thì xóa khỏi cart
+                        if (newQty === 0) {
+                            delete cart[itemId];
+                        }
+
+                        updateCartModal(); // Cập nhật lại modal hiển thị
+                        updateCartCount(); // Cập nhật lại số lượng giỏ
+                        saveCart(); // Lưu lại
+                    }
+                }
+            }
+        });
+
 
         // Confirm order
         confirmOrderBtn.addEventListener('click', () => {
@@ -1105,13 +1200,20 @@
             // Clear cart
             Object.keys(cart).forEach(key => delete cart[key]);
             updateCartCount();
+            saveCart();
 
-            // Close modal
+            // Close cart modal
             cartModal.style.display = 'none';
 
-            // Show success message
+            // Show Thank You Modal
+            setTimeout(() => {
+                document.getElementById('thankYouModal').style.display = 'flex';
+            }, 300); // Delay 300ms cho mượt
+
+            // Also show a toast (optional)
             showToast('Đặt hàng thành công!');
         });
+
 
         // Toast notification
         function showToast(message) {
@@ -1246,6 +1348,8 @@
                 updateCartCount();
             }
         }
+
+
 
         // Add cart save on every change
         const originalPushToCart = plusBtns.forEach;
@@ -1459,25 +1563,28 @@
 
         // Add simple animation for page load
         document.addEventListener('DOMContentLoaded', () => {
-            document.body.classList.add('loaded');
+            loadCart();
+            document.getElementById('closeThankYouBtn').addEventListener('click', () => {
+                document.getElementById('thankYouModal').style.display = 'none';
+            });
         });
 
         // Add CSS animation for newly loaded page
         const style = document.createElement('style');
         style.textContent = `
-        body {
-            opacity: 0;
-            animation: fadeIn 0.5s forwards;
-        }
+                    body {
+                        opacity: 0;
+                        animation: fadeIn 0.5s forwards;
+                    }
 
-        @keyframes fadeIn {
-            0% { opacity: 0; }
-            100% { opacity: 1; }
-        }
+                    @keyframes fadeIn {
+                        0% { opacity: 0; }
+                        100% { opacity: 1; }
+                    }
 
-        .loaded {
-            opacity: 1;
-        }
+                    .loaded {
+                        opacity: 1;
+                    }
 `;
         document.head.appendChild(style);
 
@@ -1486,6 +1593,37 @@
 
 
 
+
+
     </script>
+
+    <div class="timeline-container">
+        <div class="timeline" id="storeTimeline">
+            <div class="store active" data-store-id="1">
+                <div class="store-logo">🍕</div>
+                <div class="store-name">Pizza Hut</div>
+            </div>
+            <div class="store" data-store-id="2">
+                <div class="store-logo">🍕</div>
+                <div class="store-name">Domino's</div>
+            </div>
+            <div class="store" data-store-id="3">
+                <div class="store-logo">🍕</div>
+                <div class="store-name">The Pizza</div>
+            </div>
+            <div class="store" data-store-id="4">
+                <div class="store-logo">🍕</div>
+                <div class="store-name">Pizza 4P's</div>
+            </div>
+            <div class="store" data-store-id="5">
+                <div class="store-logo">🍕</div>
+                <div class="store-name">Pizza Express</div>
+            </div>
+            <div class="store" data-store-id="6">
+                <div class="store-logo">🍕</div>
+                <div class="store-name">Al Fresco's</div>
+            </div>
+        </div>
+    </div>
 </body>
 </html>
