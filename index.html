@@ -253,8 +253,10 @@
         }
 
         .food-group {
-            display: flex;
+            position: absolute;
             width: 100%;
+            height: 100%;
+            transition: transform 0.3s ease-out;
         }
 
         .food-item {
@@ -479,9 +481,7 @@
     <!-- Món chính -->
     <h2 class="section-title">Món Chính</h2>
     <div class="swipe-container food-slide-container" id="mainDishContainer">
-        <div class="food-slide" id="mainDishSlide">
-            <!-- Main dish items will be dynamically inserted here -->
-        </div>
+        <!-- Main dish items will be dynamically inserted here -->
         <div class="swipe-progress">
             <div class="swipe-progress-inner" id="mainDishProgress"></div>
         </div>
@@ -494,9 +494,7 @@
     <!-- Danh sách món ăn nhẹ -->
     <h2 class="section-title">Món Ăn Nhẹ</h2>
     <div class="swipe-container food-slide-container" id="snackContainer">
-        <div class="food-slide" id="snackSlide">
-            <!-- Snack items will be dynamically inserted here -->
-        </div>
+        <!-- Snack items will be dynamically inserted here -->
         <div class="swipe-progress">
             <div class="swipe-progress-inner" id="snackProgress"></div>
         </div>
@@ -509,9 +507,7 @@
     <!-- Nước uống -->
     <h2 class="section-title">Nước Uống</h2>
     <div class="swipe-container food-slide-container" id="drinkContainer">
-        <div class="food-slide" id="drinkSlide">
-            <!-- Drink items will be dynamically inserted here -->
-        </div>
+        <!-- Drink items will be dynamically inserted here -->
         <div class="swipe-progress">
             <div class="swipe-progress-inner" id="drinkProgress"></div>
         </div>
@@ -805,7 +801,7 @@
 
             // Khởi tạo món chính
             function initMainDishes() {
-                mainDishSlide.innerHTML = '';
+                mainDishContainer.innerHTML = '';
 
                 for (let i = 0; i < mainDishes.length; i += 3) {
                     const group = document.createElement('div');
@@ -837,7 +833,7 @@
                         group.appendChild(foodItem);
                     }
 
-                    mainDishSlide.appendChild(group);
+                    mainDishContainer.appendChild(group);
                 }
 
                 mainDishSlide.style.width = `${Math.ceil(mainDishes.length / 3) * 100}%`;
@@ -846,15 +842,37 @@
 
 
             // Cập nhật vị trí món chính
-            function updateMainDishPosition() {
-                const maxIndex = Math.ceil(mainDishes.length / 3) - 1;
-                currentMainDishIndex = Math.max(0, Math.min(currentMainDishIndex, maxIndex));
+            function updateMainDishUI() {
+                const groups = mainDishContainer.querySelectorAll('.food-group');
+                groups.forEach((group, index) => {
+                    group.style.transform = `translateX(${(index - currentMainDishIndex) * 100}%)`;
+                });
 
-                mainDishPrevBtn.disabled = currentMainDishIndex === 0;
-                mainDishNextBtn.disabled = currentMainDishIndex === maxIndex;
-
-                mainDishSlide.style.transform = `translateX(-${currentMainDishIndex * 100}%)`;
+                // Cập nhật trạng thái nút bấm
+                mainDishPrevBtn.disabled = (currentMainDishIndex === 0);
+                mainDishNextBtn.disabled = (currentMainDishIndex === groups.length - 1);
             }
+
+            function updateSnackUI() {
+                const groups = snackContainer.querySelectorAll('.food-group');
+                groups.forEach((group, index) => {
+                    group.style.transform = `translateX(${(index - currentSnackIndex) * 100}%)`;
+                });
+
+                snackPrevBtn.disabled = (currentSnackIndex === 0);
+                snackNextBtn.disabled = (currentSnackIndex === groups.length - 1);
+            }
+
+            function updateDrinkUI() {
+                const groups = drinkContainer.querySelectorAll('.food-group');
+                groups.forEach((group, index) => {
+                    group.style.transform = `translateX(${(index - currentDrinkIndex) * 100}%)`;
+                });
+
+                drinkPrevBtn.disabled = (currentDrinkIndex === 0);
+                drinkNextBtn.disabled = (currentDrinkIndex === groups.length - 1);
+            }
+
 
             // Chuyển đến nhóm món chính trước
             function goToPrevMainDish() {
@@ -908,7 +926,7 @@
                         group.appendChild(foodItem);
                     }
 
-                    snackSlide.appendChild(group);
+                    snackContainer.appendChild(group);
                 }
 
                 // Cập nhật chiều rộng slide dựa trên số nhóm
@@ -970,7 +988,7 @@
                     minusBtn.addEventListener('click', () => decreaseQuantity('drink', drink.id));
                     plusBtn.addEventListener('click', () => increaseQuantity('drink', drink.id, drink.name, drink.price));
 
-                    drinkSlide.appendChild(foodItem);
+                    drinkContainer.appendChild(group);
                 });
 
                 updateDrinkPosition();
@@ -1206,26 +1224,100 @@
                 comboContainer.addEventListener('touchmove', handleComboTouchMove);
                 comboContainer.addEventListener('touchend', handleComboTouchEnd);
 
-                // Đăng ký sự kiện món chính
-                mainDishPrevBtn.addEventListener('click', goToPrevMainDish);
-                mainDishNextBtn.addEventListener('click', goToNextMainDish);
-                mainDishContainer.addEventListener('touchstart', (e) => handleFoodTouchStart(e, 'mainDish'));
-                mainDishContainer.addEventListener('touchmove', handleFoodTouchMove);
-                mainDishContainer.addEventListener('touchend', handleFoodTouchEnd);
 
-                // Đăng ký sự kiện món ăn nhẹ
-                snackPrevBtn.addEventListener('click', goToPrevSnack);
-                snackNextBtn.addEventListener('click', goToNextSnack);
-                snackContainer.addEventListener('touchstart', (e) => handleFoodTouchStart(e, 'snack'));
-                snackContainer.addEventListener('touchmove', handleFoodTouchMove);
-                snackContainer.addEventListener('touchend', handleFoodTouchEnd);
 
-                // Đăng ký sự kiện nước uống
-                drinkPrevBtn.addEventListener('click', goToPrevDrink);
-                drinkNextBtn.addEventListener('click', goToNextDrink);
-                drinkContainer.addEventListener('touchstart', (e) => handleFoodTouchStart(e, 'drink'));
-                drinkContainer.addEventListener('touchmove', handleFoodTouchMove);
-                drinkContainer.addEventListener('touchend', handleFoodTouchEnd);
+
+
+                let mainDishStartX = null;
+                let snackStartX = null;
+                let drinkStartX = null;
+
+                mainDishContainer.addEventListener('touchstart', (e) => {
+                    mainDishStartX = e.touches[0].clientX;
+                });
+                mainDishContainer.addEventListener('touchmove', (e) => {
+                    if (mainDishStartX === null) return;
+                    const currentX = e.touches[0].clientX;
+                    const diffX = currentX - mainDishStartX;
+                    const groups = mainDishContainer.querySelectorAll('.food-group');
+                    groups.forEach((group, index) => {
+                        group.style.transform = `translateX(${(index - currentMainDishIndex) * 100 + diffX / 10}%)`;
+                    });
+                });
+                mainDishContainer.addEventListener('touchend', (e) => {
+                    if (mainDishStartX === null) return;
+                    const currentX = e.changedTouches[0].clientX;
+                    const diffX = currentX - mainDishStartX;
+                    const maxMainDishIndex = mainDishContainer.querySelectorAll('.food-group').length - 1;
+                    if (diffX < -100 && currentMainDishIndex < maxMainDishIndex) {
+                        currentMainDishIndex++;
+                    } else if (diffX > 100 && currentMainDishIndex > 0) {
+                        currentMainDishIndex--;
+                    }
+                    updateMainDishUI();
+                    mainDishStartX = null;
+                });
+
+                snackContainer.addEventListener('touchstart', (e) => {
+                    snackStartX = e.touches[0].clientX;
+                });
+                snackContainer.addEventListener('touchmove', (e) => {
+                    if (snackStartX === null) return;
+                    const currentX = e.touches[0].clientX;
+                    const diffX = currentX - snackStartX;
+                    const groups = snackContainer.querySelectorAll('.food-group');
+                    groups.forEach((group, index) => {
+                        group.style.transform = `translateX(${(index - currentSnackIndex) * 100 + diffX / 10}%)`;
+                    });
+                });
+                snackContainer.addEventListener('touchend', (e) => {
+                    if (snackStartX === null) return;
+                    const currentX = e.changedTouches[0].clientX;
+                    const diffX = currentX - snackStartX;
+                    const maxSnackIndex = snackContainer.querySelectorAll('.food-group').length - 1;
+                    if (diffX < -100 && currentSnackIndex < maxSnackIndex) {
+                        currentSnackIndex++;
+                    } else if (diffX > 100 && currentSnackIndex > 0) {
+                        currentSnackIndex--;
+                    }
+                    updateSnackUI();
+                    snackStartX = null;
+                });
+
+                drinkContainer.addEventListener('touchstart', (e) => {
+                    drinkStartX = e.touches[0].clientX;
+                });
+                drinkContainer.addEventListener('touchmove', (e) => {
+                    if (drinkStartX === null) return;
+                    const currentX = e.touches[0].clientX;
+                    const diffX = currentX - drinkStartX;
+                    const groups = drinkContainer.querySelectorAll('.food-group');
+                    groups.forEach((group, index) => {
+                        group.style.transform = `translateX(${(index - currentDrinkIndex) * 100 + diffX / 10}%)`;
+                    });
+                });
+                drinkContainer.addEventListener('touchend', (e) => {
+                    if (drinkStartX === null) return;
+                    const currentX = e.changedTouches[0].clientX;
+                    const diffX = currentX - drinkStartX;
+                    const maxDrinkIndex = drinkContainer.querySelectorAll('.food-group').length - 1;
+                    if (diffX < -100 && currentDrinkIndex < maxDrinkIndex) {
+                        currentDrinkIndex++;
+                    } else if (diffX > 100 && currentDrinkIndex > 0) {
+                        currentDrinkIndex--;
+                    }
+                    updateDrinkUI();
+                    drinkStartX = null;
+                });
+
+
+
+
+
+
+
+
+
 
                 // Đăng ký sự kiện giỏ hàng
                 document.getElementById('cartBtn').addEventListener('click', showCart);
