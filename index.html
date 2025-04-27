@@ -11,20 +11,20 @@
             padding: 0;
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
-        
+
         body {
             background-color: #f8f9fa;
             padding: 20px;
             max-width: 600px;
             margin: 0 auto;
         }
-        
+
         h1 {
             text-align: center;
             margin-bottom: 24px;
             color: #333;
         }
-        
+
         .swipe-container {
             position: relative;
             width: 100%;
@@ -34,7 +34,7 @@
             box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
             margin-bottom: 20px;
         }
-        
+
         .food-card {
             position: absolute;
             width: 100%;
@@ -42,35 +42,35 @@
             transition: transform 0.3s ease-out;
             background-color: white;
         }
-        
-        .food-card img {
-            width: 100%;
-            height: 250px;
-            object-fit: cover;
-        }
-        
+
+            .food-card img {
+                width: 100%;
+                height: 250px;
+                object-fit: cover;
+            }
+
         .food-info {
             padding: 16px;
         }
-        
-        .food-info h2 {
-            font-size: 24px;
-            margin-bottom: 10px;
-            color: #333;
-        }
-        
-        .food-info p {
-            color: #666;
-            line-height: 1.6;
-        }
-        
+
+            .food-info h2 {
+                font-size: 24px;
+                margin-bottom: 10px;
+                color: #333;
+            }
+
+            .food-info p {
+                color: #666;
+                line-height: 1.6;
+            }
+
         .controls {
             display: flex;
             justify-content: space-between;
             align-items: center;
             margin-bottom: 16px;
         }
-        
+
         button {
             padding: 8px 16px;
             background-color: #4285f4;
@@ -81,27 +81,28 @@
             font-size: 16px;
             transition: background-color 0.2s;
         }
-        
-        button:hover {
-            background-color: #3367d6;
-        }
-        
-        button:disabled {
-            opacity: 0.5;
-            cursor: not-allowed;
-        }
-        
+
+            button:hover {
+                background-color: #3367d6;
+            }
+
+            button:disabled {
+                opacity: 0.5;
+                cursor: not-allowed;
+            }
+
         .counter {
             font-size: 16px;
             color: #666;
         }
-        
+
         .indicators {
             display: flex;
             justify-content: center;
             gap: 8px;
+            margin-bottom: 24px;
         }
-        
+
         .dot {
             width: 10px;
             height: 10px;
@@ -109,31 +110,93 @@
             background-color: #ddd;
             cursor: pointer;
         }
-        
-        .dot.active {
-            background-color: #4285f4;
+
+            .dot.active {
+                background-color: #4285f4;
+            }
+
+        /* Phần quảng cáo */
+        .ad-section {
+            margin-top: 40px;
+        }
+
+        .ad-title {
+            text-align: center;
+            margin-bottom: 16px;
+            color: #333;
+            font-size: 20px;
+        }
+
+        .ad-container {
+            position: relative;
+            width: 100%;
+            height: 150px;
+            overflow: hidden;
+            border-radius: 8px;
+            margin-bottom: 16px;
+        }
+
+        .ad-slide {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            transition: transform 0.3s ease-out;
+        }
+
+        .ad-item {
+            flex: 0 0 33.333%;
+            padding: 0 5px;
+            box-sizing: border-box;
+        }
+
+            .ad-item img {
+                width: 100%;
+                height: 100%;
+                object-fit: cover;
+                border-radius: 6px;
+            }
+
+        .ad-controls {
+            display: flex;
+            justify-content: center;
+            gap: 16px;
         }
     </style>
 </head>
 <body>
     <h1>Khám Phá Món Ăn Việt Nam</h1>
-    
+
     <div class="swipe-container" id="swipeContainer">
         <!-- Food cards will be dynamically inserted here -->
     </div>
-    
+
     <div class="controls">
         <button id="prevBtn" disabled>Trước</button>
         <span class="counter" id="counter">1 / 5</span>
         <button id="nextBtn">Tiếp</button>
     </div>
-    
+
     <div class="indicators" id="indicators">
         <!-- Dots will be dynamically inserted here -->
     </div>
-    
+
+    <!-- Phần quảng cáo -->
+    <div class="ad-section">
+        <h2 class="ad-title">Ưu đãi đặc biệt</h2>
+        <div class="ad-container" id="adContainer">
+            <div class="ad-slide" id="adSlide">
+                <!-- Ad items will be dynamically inserted here -->
+            </div>
+        </div>
+        <div class="ad-controls">
+            <button id="adPrevBtn">Trước</button>
+            <button id="adNextBtn">Tiếp</button>
+        </div>
+    </div>
+
     <script>
-        document.addEventListener('DOMContentLoaded', function() {
+        document.addEventListener('DOMContentLoaded', function () {
             // Dữ liệu món ăn
             const foods = [
                 {
@@ -167,8 +230,21 @@
                     image: "https://via.placeholder.com/400x300?text=Cơm+Tấm"
                 }
             ];
-            
-            // Biến toàn cục
+
+            // Dữ liệu quảng cáo
+            const ads = [
+                "https://via.placeholder.com/300x150?text=Ưu+đãi+1",
+                "https://via.placeholder.com/300x150?text=Ưu+đãi+2",
+                "https://via.placeholder.com/300x150?text=Ưu+đãi+3",
+                "https://via.placeholder.com/300x150?text=Ưu+đãi+4",
+                "https://via.placeholder.com/300x150?text=Ưu+đãi+5",
+                "https://via.placeholder.com/300x150?text=Ưu+đãi+6",
+                "https://via.placeholder.com/300x150?text=Ưu+đãi+7",
+                "https://via.placeholder.com/300x150?text=Ưu+đãi+8",
+                "https://via.placeholder.com/300x150?text=Ưu+đãi+9"
+            ];
+
+            // Biến toàn cục cho món ăn
             let currentIndex = 0;
             let startX = null;
             let offsetX = 0;
@@ -177,7 +253,14 @@
             const nextBtn = document.getElementById('nextBtn');
             const counter = document.getElementById('counter');
             const indicators = document.getElementById('indicators');
-            
+
+            // Biến toàn cục cho quảng cáo
+            let currentAdIndex = 0;
+            const adContainer = document.getElementById('adContainer');
+            const adSlide = document.getElementById('adSlide');
+            const adPrevBtn = document.getElementById('adPrevBtn');
+            const adNextBtn = document.getElementById('adNextBtn');
+
             // Khởi tạo các thẻ món ăn
             function initFoodCards() {
                 swipeContainer.innerHTML = '';
@@ -185,21 +268,21 @@
                     const card = document.createElement('div');
                     card.className = 'food-card';
                     card.style.transform = `translateX(${(index - currentIndex) * 100}%)`;
-                    
+
                     card.innerHTML = `
-                        <img src="${food.image}" alt="${food.name}">
-                        <div class="food-info">
-                            <h2>${food.name}</h2>
-                            <p>${food.description}</p>
-                        </div>
-                    `;
-                    
+                            <img src="${food.image}" alt="${food.name}">
+                            <div class="food-info">
+                                <h2>${food.name}</h2>
+                                <p>${food.description}</p>
+                            </div>
+                        `;
+
                     swipeContainer.appendChild(card);
                 });
-                
+
                 updateUI();
             }
-            
+
             // Khởi tạo điểm chỉ báo
             function initIndicators() {
                 indicators.innerHTML = '';
@@ -210,35 +293,35 @@
                     indicators.appendChild(dot);
                 });
             }
-            
-            // Cập nhật giao diện
+
+            // Cập nhật giao diện món ăn
             function updateUI() {
                 // Cập nhật chỉ báo
                 const dots = document.querySelectorAll('.dot');
                 dots.forEach((dot, index) => {
                     dot.className = `dot ${index === currentIndex ? 'active' : ''}`;
                 });
-                
+
                 // Cập nhật nút
                 prevBtn.disabled = currentIndex === 0;
                 nextBtn.disabled = currentIndex === foods.length - 1;
-                
+
                 // Cập nhật bộ đếm
                 counter.textContent = `${currentIndex + 1} / ${foods.length}`;
-                
+
                 // Cập nhật vị trí thẻ
                 const cards = document.querySelectorAll('.food-card');
                 cards.forEach((card, index) => {
                     card.style.transform = `translateX(${(index - currentIndex) * 100}%)`;
                 });
             }
-            
+
             // Chuyển đến món ăn cụ thể
             function goToFood(index) {
                 currentIndex = index;
                 updateUI();
             }
-            
+
             // Chuyển đến món ăn trước
             function goToPrevFood() {
                 if (currentIndex > 0) {
@@ -246,7 +329,7 @@
                     updateUI();
                 }
             }
-            
+
             // Chuyển đến món ăn tiếp theo
             function goToNextFood() {
                 if (currentIndex < foods.length - 1) {
@@ -254,24 +337,24 @@
                     updateUI();
                 }
             }
-            
-            // Xử lý sự kiện vuốt
+
+            // Xử lý sự kiện vuốt món ăn
             function handleTouchStart(e) {
                 startX = e.touches[0].clientX;
             }
-            
+
             function handleTouchMove(e) {
                 if (startX === null) return;
-                
+
                 const currentX = e.touches[0].clientX;
                 offsetX = currentX - startX;
-                
+
                 // Giới hạn vuốt ở vị trí đầu và cuối
-                if ((currentIndex === 0 && offsetX > 0) || 
+                if ((currentIndex === 0 && offsetX > 0) ||
                     (currentIndex === foods.length - 1 && offsetX < 0)) {
                     offsetX = offsetX / 3; // Giảm hiệu ứng kéo
                 }
-                
+
                 // Áp dụng dịch chuyển cho tất cả thẻ
                 const cards = document.querySelectorAll('.food-card');
                 cards.forEach((card, index) => {
@@ -279,10 +362,10 @@
                     card.style.transform = `translateX(calc(${position}% + ${offsetX}px))`;
                 });
             }
-            
+
             function handleTouchEnd() {
                 if (startX === null) return;
-                
+
                 if (offsetX > 100 && currentIndex > 0) {
                     goToPrevFood();
                 } else if (offsetX < -100 && currentIndex < foods.length - 1) {
@@ -295,21 +378,118 @@
                         card.style.transform = `translateX(${position}%)`;
                     });
                 }
-                
+
                 startX = null;
                 offsetX = 0;
             }
-            
+
+            // Khởi tạo quảng cáo
+            function initAds() {
+                adSlide.innerHTML = '';
+
+                // Tạo các item quảng cáo
+                ads.forEach((ad, index) => {
+                    const adItem = document.createElement('div');
+                    adItem.className = 'ad-item';
+                    adItem.innerHTML = `<img src="${ad}" alt="Quảng cáo ${index + 1}">`;
+                    adSlide.appendChild(adItem);
+                });
+
+                updateAdPosition();
+            }
+
+            // Cập nhật vị trí quảng cáo
+            function updateAdPosition() {
+                const slideWidth = adContainer.offsetWidth;
+                const maxIndex = Math.ceil(ads.length / 3) - 1;
+
+                // Giới hạn currentAdIndex trong phạm vi hợp lệ
+                currentAdIndex = Math.max(0, Math.min(currentAdIndex, maxIndex));
+
+                // Cập nhật nút điều khiển
+                adPrevBtn.disabled = currentAdIndex === 0;
+                adNextBtn.disabled = currentAdIndex === maxIndex;
+
+                // Di chuyển slide
+                adSlide.style.transform = `translateX(-${currentAdIndex * 100}%)`;
+            }
+
+            // Chuyển đến nhóm quảng cáo trước
+            function goToPrevAds() {
+                if (currentAdIndex > 0) {
+                    currentAdIndex--;
+                    updateAdPosition();
+                }
+            }
+
+            // Chuyển đến nhóm quảng cáo tiếp theo
+            function goToNextAds() {
+                const maxIndex = Math.ceil(ads.length / 3) - 1;
+                if (currentAdIndex < maxIndex) {
+                    currentAdIndex++;
+                    updateAdPosition();
+                }
+            }
+
+            // Xử lý sự kiện vuốt quảng cáo
+            function handleAdTouchStart(e) {
+                startX = e.touches[0].clientX;
+            }
+
+            function handleAdTouchMove(e) {
+                if (startX === null) return;
+
+                const currentX = e.touches[0].clientX;
+                offsetX = currentX - startX;
+
+                const maxIndex = Math.ceil(ads.length / 3) - 1;
+
+                // Giới hạn vuốt ở vị trí đầu và cuối
+                if ((currentAdIndex === 0 && offsetX > 0) ||
+                    (currentAdIndex === maxIndex && offsetX < 0)) {
+                    offsetX = offsetX / 3; // Giảm hiệu ứng kéo
+                }
+
+                // Áp dụng dịch chuyển cho slide
+                adSlide.style.transform = `translateX(calc(-${currentAdIndex * 100}% + ${offsetX}px))`;
+            }
+
+            function handleAdTouchEnd() {
+                if (startX === null) return;
+
+                const slideWidth = adContainer.offsetWidth;
+
+                if (offsetX > 50 && currentAdIndex > 0) {
+                    goToPrevAds();
+                } else if (offsetX < -50 && currentAdIndex < Math.ceil(ads.length / 3) - 1) {
+                    goToNextAds();
+                } else {
+                    // Trở về vị trí ban đầu
+                    adSlide.style.transform = `translateX(-${currentAdIndex * 100}%)`;
+                }
+
+                startX = null;
+                offsetX = 0;
+            }
+
             // Khởi tạo ứng dụng
             initFoodCards();
             initIndicators();
-            
-            // Đăng ký sự kiện
+            initAds();
+
+            // Đăng ký sự kiện món ăn
             prevBtn.addEventListener('click', goToPrevFood);
             nextBtn.addEventListener('click', goToNextFood);
             swipeContainer.addEventListener('touchstart', handleTouchStart);
             swipeContainer.addEventListener('touchmove', handleTouchMove);
             swipeContainer.addEventListener('touchend', handleTouchEnd);
+
+            // Đăng ký sự kiện quảng cáo
+            adPrevBtn.addEventListener('click', goToPrevAds);
+            adNextBtn.addEventListener('click', goToNextAds);
+            adContainer.addEventListener('touchstart', handleAdTouchStart);
+            adContainer.addEventListener('touchmove', handleAdTouchMove);
+            adContainer.addEventListener('touchend', handleAdTouchEnd);
         });
     </script>
 </body>
