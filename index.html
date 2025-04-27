@@ -5,46 +5,41 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Pizza Time - Đặt Hàng</title>
     <style>
-        /* CSS chống selection và touch mặc định */
+        /* Global anti-selection and touch defaults */
         html, body {
-            -webkit-touch-callout: none; /* iOS Safari */
-            -webkit-user-select: none; /* Chrome/Safari/Opera */
-            -moz-user-select: none; /* Firefox */
-            -ms-user-select: none; /* IE/Edge */
-            user-select: none; /* Chuẩn chung */
-
-            -webkit-tap-highlight-color: transparent; /* Loại bỏ highlight khi chạm */
-            touch-action: manipulation; /* Chỉ cho phép các cử chỉ đơn giản */
-        }
-
-        /* Cho phép selection trong các trường nhập liệu */
-        input, textarea, [contenteditable] {
-            -webkit-user-select: text !important;
-            user-select: text !important;
-        }
-
-        /* Chống kéo thả hình ảnh */
-        img, a {
-            -webkit-user-drag: none;
-            pointer-events: none; /* Thêm dòng này để chặn tương tác */
-        }
-            * {
+            -webkit-touch-callout: none;
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+            -webkit-tap-highlight-color: transparent;
+            touch-action: manipulation;
             margin: 0;
             padding: 0;
             box-sizing: border-box;
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
 
+        input, textarea, [contenteditable] {
+            -webkit-user-select: text !important;
+            user-select: text !important;
+        }
+
+        img {
+            -webkit-user-drag: none;
+        }
+
+        /* Body styling */
         body {
             background: linear-gradient(to bottom, #ffffff, #d9fdd3);
-            background-color: #f8f9fa;
-            max-width: 600px; /* Giới hạn tối đa chiều rộng */
-            margin: 0 auto; /* Căn giữa */
-            padding: 0 10px; /* Thêm một chút padding 2 bên cho đỡ sát */
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 0 10px;
             color: #333;
             padding-bottom: 80px;
         }
 
+        /* Header */
         header {
             background-color: #e81c23;
             color: white;
@@ -53,17 +48,7 @@
             box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
         }
 
-            header h1 {
-                display: flex;
-                align-items: center;
-                justify-content: center;
-                gap: 10px;
-            }
-
-        .header-logo {
-            font-size: 1.5rem;
-        }
-
+        /* Section title */
         .section-title {
             padding: 15px;
             font-size: 1.2rem;
@@ -71,21 +56,89 @@
             margin-top: 10px;
         }
 
+        /* Timeline banner container */
         .timeline-container {
-            background-color: #fff;
+            position: relative;
+            margin-bottom: 100px; /* Khoảng cách cho phần logo nhô xuống */
+        }
+
+        /* Timeline banner */
+        .timeline-banner {
+            width: 100%;
+            height: 200px; /* Giảm chiều cao banner */
+            border-radius: 15px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            position: relative;
+        }
+
+        .section-title:first-of-type {
+            margin-top: 100px; /* Hoặc 100px nếu cần rộng hơn */
+			background-color: #388e3c;
+        }
+
+        .store-bg img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            filter: brightness(0.6);
+        }
+
+        /* Banner logo - đặt ở vị trí mới */
+        .banner-logo-container {
+            position: absolute;
+            bottom: -100px; /* Đẩy 1 nửa logo ra khỏi banner */
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 10;
+            text-align: center;
+            width: 100%;
+        }
+
+        .banner-logo {
+            width: 140px;
+            height: 140px;
+            border-radius: 50%;
+            border: 3px solid #fff;
+            background: white;
+            overflow: hidden;
+            margin: 0 auto 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+            position: relative;
+        }
+
+            .banner-logo img {
+                width: 100%;
+                height: 100%;
+                object-fit: cover;
+            }
+
+        .store-name {
+            font-size: 1.4rem;
+            font-weight: bold;
+            color: white;
+            text-shadow: 1px 1px 5px rgba(0, 0, 0, 0.5);
+        }
+
+        /* Store timeline */
+        .storename-container {
+            background: #fff;
             padding: 15px 0;
             box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            margin-top: 80px; /* Khoảng cách từ logo đến timeline */
         }
 
         .timeline {
             display: flex;
+            align-items: center;
             overflow-x: auto;
             scroll-snap-type: x mandatory;
             gap: 15px;
             padding: 0 15px;
+            height: 100px;
             scrollbar-width: none;
-            user-select: none; /* Không cho chọn text */
-            -webkit-user-drag: none; /* Không cho kéo ảnh */
         }
 
             .timeline::-webkit-scrollbar {
@@ -93,53 +146,45 @@
             }
 
         .store {
-            scroll-snap-align: start;
-            min-width: 150px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            padding: 10px;
+            flex: 0 0 auto;
+            width: 100px;
+            text-align: center;
+            scroll-snap-align: center;
             cursor: pointer;
-            border-radius: 10px;
-            transition: background-color 0.3s;
-            user-select: none; /* Không cho chọn text */
-            -webkit-user-drag: none; /* Không cho kéo ảnh */
         }
 
-            .store.active {
-                background-color: #ffecec;
-                border: 2px solid #e81c23;
-            }
-
         .store-logo {
-            width: 60px; /*Tăng kích thước khung logo*/
+            width: 60px;
             height: 60px;
-            background-color: #e0e0e0;
-            border-radius: 50%; /* Làm tròn khung logo */
+            border-radius: 50%;
+            border: 2px solid #e81c23;
+            overflow: hidden;
+            margin: 0 auto 8px;
+            background-color: white;
             display: flex;
             align-items: center;
             justify-content: center;
-            margin-bottom: 8px;
-            overflow: hidden;
-
         }
 
             .store-logo img {
-                font-size: 24px;
-                color: #e81c23;
+                width: 100%;
+                height: 100%;
                 object-fit: cover;
-                border-radius: 50%;
             }
 
         .store-name {
-            font-size: 0.8rem;
-            text-align: center;
-            font-weight: 500;
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: #333;
         }
 
-        /* Combo Hot Section */
+        .store.active .store-logo {
+            border-color: #ff9800;
+            box-shadow: 0 0 8px rgba(255, 152, 0, 0.6);
+        }
+
+        /* Các phần còn lại giữ nguyên */
         .combo-container {
-            position: relative;
             margin: 15px;
             background-color: white;
             border-radius: 15px;
@@ -155,6 +200,7 @@
         .combo-item {
             min-width: 100%;
             flex-shrink: 0;
+            position: relative;
         }
 
         .combo-img {
@@ -215,10 +261,20 @@
                 cursor: not-allowed;
             }
 
-        /* Food Sections (Main Dishes, Sides, Drinks) */
+        .combo-item .control-btn {
+            position: absolute;
+            bottom: 15px;
+            right: 15px;
+            background-color: #e81c23;
+            color: white;
+            font-size: 0.9rem;
+            padding: 8px 20px;
+            border-radius: 20px;
+        }
+
+        /* Food Sections */
         .food-section {
             margin: 15px;
-            position: relative;
         }
 
         .food-container {
@@ -430,9 +486,9 @@
 
         #closeThankYouBtn {
             display: block;
-            margin: 20px auto 0; /* Căn giữa và giữ margin-top */
-            width: auto; /* Ghi đè width: 48% */
-            padding: 12px 30px; /* Điều chỉnh padding để nút trông cân đối */
+            margin: 20px auto 0;
+            width: auto;
+            padding: 12px 30px;
         }
 
         .empty-cart {
@@ -455,126 +511,9 @@
             display: none;
         }
 
-        .quantity-controls {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-        }
-
-        .quantity-btn {
-            width: 28px;
-            height: 28px;
-            border: 1px solid #ddd;
-            background-color: #f8f8f8;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-weight: bold;
-            cursor: pointer;
-            font-size: 1rem;
-        }
-
-        .quantity {
-            font-weight: 600;
-        }
-
-        /* CSS riêng cho logo trong timeline */
         .store-bg {
-            width: 100%;
-            height: 150px; /* Chiều cao ảnh nền */
             overflow: hidden;
-            border-radius: 10px;
-            margin-bottom: 8px;
-        }
-
-            .store-bg img {
-                width: 100%;
-                height: 100%;
-                object-fit: cover; /* Đảm bảo ảnh nền vừa khít */
-                border-radius: 10px; /* Bo góc ảnh nền */
-            }
-
-        .timeline-logo {
-            width: 120px; /* Kích thước logo */
-            height: 120px;
-            background-color: #fff;
-            border: 2px solid #e81c23; /* Viền đỏ */
-            border-radius: 50%; /* Bo tròn */
-            overflow: hidden;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin-top: -40px; /* Đẩy logo lên trên ảnh nền */
-            position: relative;
-            z-index: 1;
-        }
-
-            .timeline-logo img {
-                width: 100%;
-                height: 100%;
-                object-fit: cover; /* Đảm bảo logo vừa khít */
-            }
-
-        .store-name {
-            font-size: 0.9rem;
-            text-align: center;
-            font-weight: 500;
-            margin-top: 5px;
-        }
-
-        .store-banner {
-            scroll-snap-align: start;
-            min-width: 150px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            padding: 10px;
-            user-select: none;
-        }
-
-        .combo-item {
-            position: relative; /* thêm dòng này */
-        }
-
-            .combo-item .control-btn {
-                position: absolute;
-                bottom: 15px;
-                left: 50%;
-                transform: translateX(-30%); /* căn giữa ngang */
-                background-color: #e81c23;
-                color: white;
-                font-size: 0.9rem;
-                padding: 8px 20px;
-                border-radius: 20px;
-            }
-
-        header h1 {
-            font-size: 1.8rem; /* mặc định desktop */
-        }
-
-        /* Khi màn hình nhỏ hơn 600px (điện thoại) */
-        @media (max-width: 600px) {
-            header h1 {
-                font-size: 1.4rem; /* thu nhỏ chữ để không bị vỡ giao diện */
-            }
-        }
-
-        header {
-            display: flex;
-            align-items: center; /* Căn giữa theo chiều dọc */
-            justify-content: center; /* Căn giữa nội dung */
-            background-color: #ff9800; /* Màu nền */
-            padding: 15px;
-        }
-
-        .header-logo {
-            display: inline-block;
-            width: 60px; /* Điều chỉnh kích thước logo */
-            height: 60px;
-            background-image: url('logo.png'); /* Đường dẫn đến file logo */
-            background-size: cover;
-            border-radius: 50%; /* Làm tròn hình ảnh */
+            border-radius: 15px;
         }
     </style>
 </head>
@@ -582,22 +521,23 @@
 
     <!-- Header -->
     <header>
-        <img src="images/Timeline/logo.png" class="header-logo" alt="Pizza Time Logo">
-        <h1>Pizza Time - Đặt Hàng</h1>
+        <span class="header-logo"></span> Pizza Time - Đặt Hàng
     </header>
 
-
-    <!-- Timeline (Store Selector) -->
-    <div class="store-banner" data-store-id="1">
+    <!-- Banner -->
+    <div class="timeline-banner" data-store-id="1">
         <div class="store-bg">
             <img src="images/Timeline/Timeline.jpg" alt="Pizza Time Background">
         </div>
-        <div class="timeline-logo">
-            <!-- Đổi class ở đây -->
-            <img src="images/Timeline/logo.jpg" alt="Pizza Logo">
+
+        <!-- Thay đổi ở đây -->
+        <div class="banner-logo-container">
+            <div class="banner-logo">
+                <img src="images/Timeline/logo.jpg" alt="Pizza Logo">
+            </div>            
         </div>
-        <div class="store-name">Pizza Time</div>
     </div>
+
 
 
     <!-- Combo Hot Section -->
@@ -1252,19 +1192,19 @@
                     const cartItemElement = document.createElement('div');
                     cartItemElement.className = 'cart-item';
                     cartItemElement.innerHTML = `
-                                                                <div class="cart-item-info">
-                                                                    <div class="cart-item-name">${item.name}</div>
-                                                                    <div class="cart-item-quantity">
-                                                                        SL:
-                                                                        <div class="quantity-controls">
-                                                                            <div class="quantity-btn minus" data-item-id="${itemId}">-</div>
-                                                                            <div class="quantity" id="cart-qty-${itemId}">${item.quantity}</div>
-                                                                            <div class="quantity-btn plus" data-item-id="${itemId}">+</div>
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-                                                                <div class="cart-item-price">${formatPrice(itemTotal)}</div>
-                                                            `;
+                                                                                    <div class="cart-item-info">
+                                                                                        <div class="cart-item-name">${item.name}</div>
+                                                                                        <div class="cart-item-quantity">
+                                                                                            SL:
+                                                                                            <div class="quantity-controls">
+                                                                                                <div class="quantity-btn minus" data-item-id="${itemId}">-</div>
+                                                                                                <div class="quantity" id="cart-qty-${itemId}">${item.quantity}</div>
+                                                                                                <div class="quantity-btn plus" data-item-id="${itemId}">+</div>
+                                                                                            </div>
+                                                                                        </div>
+                                                                                    </div>
+                                                                                    <div class="cart-item-price">${formatPrice(itemTotal)}</div>
+                                                                                `;
 
                     cartItems.appendChild(cartItemElement);
 
@@ -1313,9 +1253,9 @@
             const totalElement = document.createElement('div');
             totalElement.className = 'cart-total';
             totalElement.innerHTML = `
-                                                        <div>Tổng cộng:</div>
-                                                        <div>${formatPrice(totalPrice)}</div>
-                                                    `;
+                                                                            <div>Tổng cộng:</div>
+                                                                            <div>${formatPrice(totalPrice)}</div>
+                                                                        `;
 
             cartItems.appendChild(totalElement);
         }
@@ -1733,19 +1673,19 @@
         // Add CSS animation for newly loaded page
         const style = document.createElement('style');
         style.textContent = `
-                                                            body {
-                                                                opacity: 0;
-                                                                animation: fadeIn 0.5s forwards;
-                                                            }
+                                                                                body {
+                                                                                    opacity: 0;
+                                                                                    animation: fadeIn 0.5s forwards;
+                                                                                }
 
-                                                            @keyframes fadeIn {
-                                                                0% { opacity: 0; }
-                                                                100% { opacity: 1; }
-                                                            }
+                                                                                @keyframes fadeIn {
+                                                                                    0% { opacity: 0; }
+                                                                                    100% { opacity: 1; }
+                                                                                }
 
-                                                            .loaded {
-                                                                opacity: 1;
-                                                            }
+                                                                                .loaded {
+                                                                                    opacity: 1;
+                                                                                }
 `;
         document.head.appendChild(style);
 
@@ -1758,45 +1698,29 @@
 
     </script>
 
-    <div class="timeline-container">
+    <div class="storename-container">
         <div class="timeline" id="storeTimeline">
             <div class="store active" data-store-id="1">
                 <div class="store-logo">
-                    <img src="images/Timeline/logo.jpg" alt="Pizza Time Logo">
+                    <img src="images/Timeline/logo.jpg" alt="Pizza Time Diên Hồng">
                 </div>
-                <div class="store-name">Pizza Time Diên Hồng</div>
+                <div class="store-name">Diên Hồng</div>
             </div>
             <div class="store" data-store-id="2">
                 <div class="store-logo">
-                    <img src="images/Timeline/logo.jpg" alt="Pizza Time Logo">
+                    <img src="images/Timeline/logo.jpg" alt="Pizza Time Nguyễn Huệ">
                 </div>
-                <div class="store-name">Pizza Time Nguyễn Huệ</div>
+                <div class="store-name">Nguyễn Huệ</div>
             </div>
             <div class="store" data-store-id="3">
                 <div class="store-logo">
-                    <img src="images/Timeline/logo.jpg" alt="Pizza Time Logo">
+                    <img src="images/Timeline/logo.jpg" alt="Pizza Time Hà Thanh">
                 </div>
-                <div class="store-name">Pizza Time Hà Thanh</div>
+                <div class="store-name">Hà Thanh</div>
             </div>
-            <div class="store" data-store-id="4">
-                <div class="store-logo">
-                    <img src="images/Timeline/logo.jpg" alt="Pizza Time Logo">
-                </div>
-                <div class="store-name">Pizza Time Đà Nẵng</div>
-            </div>
-            <div class="store" data-store-id="5">
-                <div class="store-logo">
-                    <img src="images/Timeline/logo.jpg" alt="Pizza Time Logo">
-                </div>
-                <div class="store-name">Pizza Time Tuy Hòa</div>
-            </div>
-            <div class="store" data-store-id="6">
-                <div class="store-logo">
-                    <img src="images/Timeline/logo.jpg" alt="Pizza Time Logo">
-                </div>
-                <div class="store-name">Pizza Time Nha Trang</div>
-            </div>
+            <!-- Thêm các store khác tương tự -->
         </div>
     </div>
+
 </body>
 </html>
