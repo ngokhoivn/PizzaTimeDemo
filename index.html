@@ -168,7 +168,7 @@
     <h1>Khám Phá Món Ăn Việt Nam</h1>
 
     <div class="swipe-container" id="swipeContainer">
-        <!-- Food cards will be dynamically inserted here -->
+        <!-- Combo cards will be dynamically inserted here -->
     </div>
 
     <div class="controls">
@@ -181,9 +181,9 @@
         <!-- Dots will be dynamically inserted here -->
     </div>
 
-    <!-- Phần quảng cáo -->
+    <!-- Phần món chính-->
     <div class="ad-section">
-        <h2 class="ad-title">Ưu đãi đặc biệt</h2>
+        <h2 class="ad-title">Món chính</h2>
         <div class="ad-container" id="adContainer">
             <div class="ad-slide" id="adSlide">
                 <!-- Ad items will be dynamically inserted here -->
@@ -197,44 +197,46 @@
 
     <script>
         document.addEventListener('DOMContentLoaded', function () {
-            // Dữ liệu món ăn
-            const foods = [
+            // Combo món ăn
+            const Combo = [
                 {
                     id: 1,
-                    name: "Phở Bò",
-                    description: "Món súp truyền thống Việt Nam với bánh phở, thịt bò và nước dùng thơm ngon",
-                    image: "https://via.placeholder.com/400x300?text=Phở+Bò"
+                    name: "Pizza Time - Quy Nhơn",
+                    description: "Pizza truyền thống chế biến từ nguyên liệu tươi mới nhất,",
+                    image: "https://drive.google.com/file/d/1LRcPjlo_dN0KpRIBHzbExCP25uws8SYG/view?usp=sharing"
                 },
                 {
                     id: 2,
-                    name: "Bánh Mì",
-                    description: "Bánh mì giòn với các loại nhân thịt, rau và nước sốt đặc trưng",
-                    image: "https://via.placeholder.com/400x300?text=Bánh+Mì"
+                    name: "Mở Tiệc Linh Đình",
+                    description: "Mở Tiệc Phủ Phê Cùng Pizza Time Ngon Mê",
+                    image: "https://drive.google.com/file/d/1yE0lVW0fzog2nbHCFF6HhMO86yFlNyib/view?usp=sharing"
                 },
                 {
                     id: 3,
-                    name: "Gỏi Cuốn",
-                    description: "Cuốn tươi với tôm, thịt heo, bún và rau thơm, chấm cùng nước mắm",
-                    image: "https://via.placeholder.com/400x300?text=Gỏi+Cuốn"
+                    name: "Combo 7",
+                    description: "Ba Rọi Xông Khói Size S + Nước chỉ 45k",
+                    image: "https://drive.google.com/file/d/1ABs3OgmpfOBm2q8wPY52tudnjfKil4Gg/view?usp=sharing"
                 },
                 {
                     id: 4,
-                    name: "Bún Chả",
-                    description: "Bún ăn kèm thịt lợn nướng, rau sống và nước mắm chua ngọt",
-                    image: "https://via.placeholder.com/400x300?text=Bún+Chả"
+                    name: "Combo 8",
+                    description: "Tôm Thanh Cua Size S + Nước + Khoai lang chiên chỉ 59K",
+                    image: "https://drive.google.com/file/d/1UH60pLqXn1fjRS5187RwHsf-KD0uq7dX/view?usp=sharing"
                 },
                 {
                     id: 5,
-                    name: "Cơm Tấm",
-                    description: "Cơm tấm sườn nướng cùng trứng ốp la và đồ chua",
-                    image: "https://via.placeholder.com/400x300?text=Cơm+Tấm"
+                    name: "Siêu Ưu đãi lễ 30/4 và 1/5",
+                    description: "Giảm ngay 30% khi order từ Pizza Time",
+                    image: "https://drive.google.com/file/d/1DJ3NzKyeTYKCCCYiKsCFUdYo154OgD3H/view?usp=sharing"
                 }
             ];
 
-            // Dữ liệu quảng cáo
-            const ads = [
-                "https://via.placeholder.com/300x150?text=Ưu+đãi+1",
-                "https://via.placeholder.com/300x150?text=Ưu+đãi+2",
+            // Tất cả món
+            const foods = [
+
+                // Dữ liệu Món chính
+                "https://drive.google.com/file/d/1h0qUIjFzoKBwUdDDv7KNCk0kTREVPbXz/view?usp=sharing",
+                "https://drive.google.com/file/d/1b1JVFGVcCAqZPcjeJgSunNdMv7wUdQuv/view?usp=sharing",
                 "https://via.placeholder.com/300x150?text=Ưu+đãi+3",
                 "https://via.placeholder.com/300x150?text=Ưu+đãi+4",
                 "https://via.placeholder.com/300x150?text=Ưu+đãi+5",
@@ -244,7 +246,7 @@
                 "https://via.placeholder.com/300x150?text=Ưu+đãi+9"
             ];
 
-            // Biến toàn cục cho món ăn
+            // Biến toàn cục cho Combo
             let currentIndex = 0;
             let startX = null;
             let offsetX = 0;
@@ -254,7 +256,7 @@
             const counter = document.getElementById('counter');
             const indicators = document.getElementById('indicators');
 
-            // Biến toàn cục cho quảng cáo
+            // Biến toàn cục cho món ăn
             let currentAdIndex = 0;
             const adContainer = document.getElementById('adContainer');
             const adSlide = document.getElementById('adSlide');
@@ -262,9 +264,9 @@
             const adNextBtn = document.getElementById('adNextBtn');
 
             // Khởi tạo các thẻ món ăn
-            function initFoodCards() {
+            function initComboCards() {
                 swipeContainer.innerHTML = '';
-                foods.forEach((food, index) => {
+                combo.forEach((food, index) => {
                     const card = document.createElement('div');
                     card.className = 'food-card';
                     card.style.transform = `translateX(${(index - currentIndex) * 100}%)`;
@@ -286,10 +288,10 @@
             // Khởi tạo điểm chỉ báo
             function initIndicators() {
                 indicators.innerHTML = '';
-                foods.forEach((_, index) => {
+                combo.forEach((_, index) => {
                     const dot = document.createElement('div');
                     dot.className = `dot ${index === currentIndex ? 'active' : ''}`;
-                    dot.addEventListener('click', () => goToFood(index));
+                    dot.addEventListener('click', () => goToCombo(index));
                     indicators.appendChild(dot);
                 });
             }
@@ -304,10 +306,10 @@
 
                 // Cập nhật nút
                 prevBtn.disabled = currentIndex === 0;
-                nextBtn.disabled = currentIndex === foods.length - 1;
+                nextBtn.disabled = currentIndex === combo.length - 1;
 
                 // Cập nhật bộ đếm
-                counter.textContent = `${currentIndex + 1} / ${foods.length}`;
+                counter.textContent = `${currentIndex + 1} / ${combo.length}`;
 
                 // Cập nhật vị trí thẻ
                 const cards = document.querySelectorAll('.food-card');
@@ -317,13 +319,13 @@
             }
 
             // Chuyển đến món ăn cụ thể
-            function goToFood(index) {
+            function goToCombo(index) {
                 currentIndex = index;
                 updateUI();
             }
 
             // Chuyển đến món ăn trước
-            function goToPrevFood() {
+            function goToPrevCombo() {
                 if (currentIndex > 0) {
                     currentIndex--;
                     updateUI();
@@ -331,8 +333,8 @@
             }
 
             // Chuyển đến món ăn tiếp theo
-            function goToNextFood() {
-                if (currentIndex < foods.length - 1) {
+            function goToNextCombo() {
+                if (currentIndex < combo.length - 1) {
                     currentIndex++;
                     updateUI();
                 }
@@ -351,7 +353,7 @@
 
                 // Giới hạn vuốt ở vị trí đầu và cuối
                 if ((currentIndex === 0 && offsetX > 0) ||
-                    (currentIndex === foods.length - 1 && offsetX < 0)) {
+                    (currentIndex === combo.length - 1 && offsetX < 0)) {
                     offsetX = offsetX / 3; // Giảm hiệu ứng kéo
                 }
 
@@ -367,9 +369,9 @@
                 if (startX === null) return;
 
                 if (offsetX > 100 && currentIndex > 0) {
-                    goToPrevFood();
-                } else if (offsetX < -100 && currentIndex < foods.length - 1) {
-                    goToNextFood();
+                    goToPrevCombo();
+                } else if (offsetX < -100 && currentIndex < combo.length - 1) {
+                    goToNextCombo();
                 } else {
                     // Trở về vị trí ban đầu
                     const cards = document.querySelectorAll('.food-card');
@@ -383,25 +385,25 @@
                 offsetX = 0;
             }
 
-            // Khởi tạo quảng cáo
-            function initAds() {
+            // Khởi tạo món ăn
+            function initFood() {
                 adSlide.innerHTML = '';
 
-                // Tạo các item quảng cáo
-                ads.forEach((ad, index) => {
+                // Tạo các item món ăn
+                foods.forEach((ad, index) => {
                     const adItem = document.createElement('div');
                     adItem.className = 'ad-item';
-                    adItem.innerHTML = `<img src="${ad}" alt="Quảng cáo ${index + 1}">`;
+                    adItem.innerHTML = `<img src="${ad}" alt="Món ăn ${index + 1}">`;
                     adSlide.appendChild(adItem);
                 });
 
                 updateAdPosition();
             }
 
-            // Cập nhật vị trí quảng cáo
+            // Cập nhật vị trí món ăn
             function updateAdPosition() {
                 const slideWidth = adContainer.offsetWidth;
-                const maxIndex = Math.ceil(ads.length / 3) - 1;
+                const maxIndex = Math.ceil(foods.length / 3) - 1;
 
                 // Giới hạn currentAdIndex trong phạm vi hợp lệ
                 currentAdIndex = Math.max(0, Math.min(currentAdIndex, maxIndex));
@@ -414,24 +416,24 @@
                 adSlide.style.transform = `translateX(-${currentAdIndex * 100}%)`;
             }
 
-            // Chuyển đến nhóm quảng cáo trước
-            function goToPrevAds() {
+            // Chuyển đến nhóm món ăn trước
+            function goToPrevFood() {
                 if (currentAdIndex > 0) {
                     currentAdIndex--;
                     updateAdPosition();
                 }
             }
 
-            // Chuyển đến nhóm quảng cáo tiếp theo
-            function goToNextAds() {
-                const maxIndex = Math.ceil(ads.length / 3) - 1;
+            // Chuyển đến nhóm món ăn tiếp theo
+            function goToNextFood() {
+                const maxIndex = Math.ceil(foods.length / 3) - 1;
                 if (currentAdIndex < maxIndex) {
                     currentAdIndex++;
                     updateAdPosition();
                 }
             }
 
-            // Xử lý sự kiện vuốt quảng cáo
+            // Xử lý sự kiện vuốt món ăn chính
             function handleAdTouchStart(e) {
                 startX = e.touches[0].clientX;
             }
@@ -442,7 +444,7 @@
                 const currentX = e.touches[0].clientX;
                 offsetX = currentX - startX;
 
-                const maxIndex = Math.ceil(ads.length / 3) - 1;
+                const maxIndex = Math.ceil(foods.length / 3) - 1;
 
                 // Giới hạn vuốt ở vị trí đầu và cuối
                 if ((currentAdIndex === 0 && offsetX > 0) ||
@@ -460,9 +462,9 @@
                 const slideWidth = adContainer.offsetWidth;
 
                 if (offsetX > 50 && currentAdIndex > 0) {
-                    goToPrevAds();
-                } else if (offsetX < -50 && currentAdIndex < Math.ceil(ads.length / 3) - 1) {
-                    goToNextAds();
+                    goToPrevFood();
+                } else if (offsetX < -50 && currentAdIndex < Math.ceil(foods.length / 3) - 1) {
+                    goToNextFood();
                 } else {
                     // Trở về vị trí ban đầu
                     adSlide.style.transform = `translateX(-${currentAdIndex * 100}%)`;
@@ -473,20 +475,20 @@
             }
 
             // Khởi tạo ứng dụng
-            initFoodCards();
+            initComboCards();
             initIndicators();
-            initAds();
+            initFood();
 
-            // Đăng ký sự kiện món ăn
-            prevBtn.addEventListener('click', goToPrevFood);
-            nextBtn.addEventListener('click', goToNextFood);
+            // Đăng ký sự kiện combo
+            prevBtn.addEventListener('click', goToPrevCombo);
+            nextBtn.addEventListener('click', goToNextCombo);
             swipeContainer.addEventListener('touchstart', handleTouchStart);
             swipeContainer.addEventListener('touchmove', handleTouchMove);
             swipeContainer.addEventListener('touchend', handleTouchEnd);
 
-            // Đăng ký sự kiện quảng cáo
-            adPrevBtn.addEventListener('click', goToPrevAds);
-            adNextBtn.addEventListener('click', goToNextAds);
+            // Đăng ký sự kiện món ăn chính
+            adPrevBtn.addEventListener('click', goToPrevFood);
+            adNextBtn.addEventListener('click', goToNextFood);
             adContainer.addEventListener('touchstart', handleAdTouchStart);
             adContainer.addEventListener('touchmove', handleAdTouchMove);
             adContainer.addEventListener('touchend', handleAdTouchEnd);
