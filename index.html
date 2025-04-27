@@ -533,7 +533,21 @@
             user-select: none;
         }
 
+        .combo-item {
+            position: relative; /* thêm dòng này */
+        }
 
+            .combo-item .control-btn {
+                position: absolute;
+                bottom: 15px;
+                left: 50%;
+                transform: translateX(-30%); /* căn giữa ngang */
+                background-color: #e81c23;
+                color: white;
+                font-size: 0.9rem;
+                padding: 8px 20px;
+                border-radius: 20px;
+            }
     </style>
 </head>
 <body ontouchstart ="" oncontextmenu="return false" ondragstart="return false">
@@ -1503,24 +1517,14 @@
                 // Simulate adding a preset combo
                 switch (index) {
                     case 0: // Combo Gia Đình
-                        addPresetToCart('m1', 1); // Pizza Hải Sản
-                        addPresetToCart('d1', 2); // 2 Coca Cola
-                        addPresetToCart('s1', 1); // Khoai Tây Chiên
-                        showToast('Đã thêm Combo Gia Đình vào giỏ hàng!');
+                        addComboToCart('combo1', 'Combo Gia Đình', 299000);
                         break;
                     case 1: // Combo Đôi
-                        addPresetToCart('m2', 1); // Pizza Pepperoni
-                        addPresetToCart('d2', 2); // 2 Pepsi
-                        addPresetToCart('s2', 1); // Mì Ý
+                        addComboToCart('combo2', 'Combo Đôi', 199000);
                         showToast('Đã thêm Combo Đôi vào giỏ hàng!');
                         break;
                     case 2: // Combo Party
-                        addPresetToCart('m3', 1); // Pizza Hawaii
-                        addPresetToCart('m4', 1); // Pizza Thịt Hỗn Hợp
-                        addPresetToCart('d3', 4); // 4 Sprite
-                        addPresetToCart('s3', 1); // Gà Cay
-                        addPresetToCart('s4', 1); // Salad
-                        showToast('Đã thêm Combo Party vào giỏ hàng!');
+                        addComboToCart('combo3', 'Combo Party', 499000);
                         break;
                 }
                 saveCart();
@@ -1529,6 +1533,21 @@
             combo.style.position = 'relative';
             combo.appendChild(quickAddBtn);
         });
+
+        function addComboToCart(comboId, comboName, comboPrice) {
+            if (!cart[comboId]) {
+                cart[comboId] = {
+                    name: comboName,
+                    price: comboPrice,
+                    quantity: 0,
+                    type: "combo"
+                };
+            }
+            cart[comboId].quantity++;
+            updateCartCount();
+            saveCart();
+            showToast(`Đã thêm ${comboName} vào giỏ hàng!`);
+        }
 
         // Helper function to add preset items to cart
         function addPresetToCart(itemId, quantity) {
