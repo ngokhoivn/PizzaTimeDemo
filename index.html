@@ -206,12 +206,17 @@
             flex-shrink: 0;
             position: relative;
             scroll-snap-align: start;
+            overflow: hidden; /* <- chặn tràn ra ngoài */
+            border-radius: 15px; /* thêm bo góc cho đẹp */
+            background-color: white; /* nền trắng nếu ảnh lỗi */
         }
 
         .combo-img {
             width: 100%;
             height: 180px;
             object-fit: cover;
+            object-fit: cover; /* giữ tỷ lệ ảnh, cắt vừa đủ */
+            display: block; /* tránh ảnh inline gây dư khoảng */
         }
 
         .combo-info {
