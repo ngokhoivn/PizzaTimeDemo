@@ -548,14 +548,44 @@
                 padding: 8px 20px;
                 border-radius: 20px;
             }
+
+        header h1 {
+            font-size: 1.8rem; /* mặc định desktop */
+        }
+
+        /* Khi màn hình nhỏ hơn 600px (điện thoại) */
+        @media (max-width: 600px) {
+            header h1 {
+                font-size: 1.4rem; /* thu nhỏ chữ để không bị vỡ giao diện */
+            }
+        }
+
+        header {
+            display: flex;
+            align-items: center; /* Căn giữa theo chiều dọc */
+            justify-content: center; /* Căn giữa nội dung */
+            background-color: #ff9800; /* Màu nền */
+            padding: 15px;
+        }
+
+        .header-logo {
+            display: inline-block;
+            width: 60px; /* Điều chỉnh kích thước logo */
+            height: 60px;
+            background-image: url('logo.png'); /* Đường dẫn đến file logo */
+            background-size: cover;
+            border-radius: 50%; /* Làm tròn hình ảnh */
+        }
     </style>
 </head>
-<body ontouchstart ="" oncontextmenu="return false" ondragstart="return false">
+<body ontouchstart="" oncontextmenu="return false" ondragstart="return false">
 
     <!-- Header -->
     <header>
-        <h1><span class="header-logo">🍕</span> Pizza Time - Đặt Hàng</h1>
+        <img src="images/Timeline/logo.png" class="header-logo" alt="Pizza Time Logo">
+        <h1>Pizza Time - Đặt Hàng</h1>
     </header>
+
 
     <!-- Timeline (Store Selector) -->
     <div class="store-banner" data-store-id="1">
@@ -1222,19 +1252,19 @@
                     const cartItemElement = document.createElement('div');
                     cartItemElement.className = 'cart-item';
                     cartItemElement.innerHTML = `
-                                                            <div class="cart-item-info">
-                                                                <div class="cart-item-name">${item.name}</div>
-                                                                <div class="cart-item-quantity">
-                                                                    SL:
-                                                                    <div class="quantity-controls">
-                                                                        <div class="quantity-btn minus" data-item-id="${itemId}">-</div>
-                                                                        <div class="quantity" id="cart-qty-${itemId}">${item.quantity}</div>
-                                                                        <div class="quantity-btn plus" data-item-id="${itemId}">+</div>
+                                                                <div class="cart-item-info">
+                                                                    <div class="cart-item-name">${item.name}</div>
+                                                                    <div class="cart-item-quantity">
+                                                                        SL:
+                                                                        <div class="quantity-controls">
+                                                                            <div class="quantity-btn minus" data-item-id="${itemId}">-</div>
+                                                                            <div class="quantity" id="cart-qty-${itemId}">${item.quantity}</div>
+                                                                            <div class="quantity-btn plus" data-item-id="${itemId}">+</div>
+                                                                        </div>
                                                                     </div>
                                                                 </div>
-                                                            </div>
-                                                            <div class="cart-item-price">${formatPrice(itemTotal)}</div>
-                                                        `;
+                                                                <div class="cart-item-price">${formatPrice(itemTotal)}</div>
+                                                            `;
 
                     cartItems.appendChild(cartItemElement);
 
@@ -1283,9 +1313,9 @@
             const totalElement = document.createElement('div');
             totalElement.className = 'cart-total';
             totalElement.innerHTML = `
-                                                    <div>Tổng cộng:</div>
-                                                    <div>${formatPrice(totalPrice)}</div>
-                                                `;
+                                                        <div>Tổng cộng:</div>
+                                                        <div>${formatPrice(totalPrice)}</div>
+                                                    `;
 
             cartItems.appendChild(totalElement);
         }
@@ -1703,19 +1733,19 @@
         // Add CSS animation for newly loaded page
         const style = document.createElement('style');
         style.textContent = `
-                                                        body {
-                                                            opacity: 0;
-                                                            animation: fadeIn 0.5s forwards;
-                                                        }
+                                                            body {
+                                                                opacity: 0;
+                                                                animation: fadeIn 0.5s forwards;
+                                                            }
 
-                                                        @keyframes fadeIn {
-                                                            0% { opacity: 0; }
-                                                            100% { opacity: 1; }
-                                                        }
+                                                            @keyframes fadeIn {
+                                                                0% { opacity: 0; }
+                                                                100% { opacity: 1; }
+                                                            }
 
-                                                        .loaded {
-                                                            opacity: 1;
-                                                        }
+                                                            .loaded {
+                                                                opacity: 1;
+                                                            }
 `;
         document.head.appendChild(style);
 
@@ -1768,5 +1798,5 @@
             </div>
         </div>
     </div>
-    </body>
+</body>
 </html>
