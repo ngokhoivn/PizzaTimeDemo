@@ -31,7 +31,7 @@
 
         /* Body styling */
         body {
-            background: linear-gradient(to bottom, #ffffff, #d9fdd3);
+            background: #ffffff;
             max-width: 600px;
             margin: 0 auto;
             padding: 0 10px;
@@ -48,12 +48,14 @@
             box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
         }
 
-        /* Section title */
         .section-title {
+            margin-top: 10px;
             padding: 15px;
             font-size: 1.2rem;
-            color: #333;
-            margin-top: 10px;
+            background-color: #388e3c; /* Xanh lá cây đậm */
+            color: white; /* Chữ trắng */
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
         }
 
         /* Timeline banner container */
@@ -65,14 +67,15 @@
         /* Timeline banner */
         .timeline-banner {
             width: 100%;
-            height: 200px; /* Giảm chiều cao banner */
+            height: 200px;
+            overflow: hidden; /* giữ nguyên */
             border-radius: 15px;
             box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
             position: relative;
         }
 
         .section-title:first-of-type {
-            margin-top: 100px; /* Hoặc 100px nếu cần rộng hơn */
+            margin-top: 60px; /* Hoặc 100px nếu cần rộng hơn */
         }
 
         .store-bg img {
@@ -84,13 +87,9 @@
 
         /* Banner logo - đặt ở vị trí mới */
         .banner-logo-container {
-            position: absolute;
-            bottom: -100px; /* Đẩy 1 nửa logo ra khỏi banner */
-            left: 50%;
-            transform: translateX(-50%);
-            z-index: 10;
+            position: relative;
+            margin-top: -70px; /* hoặc -80px nếu logo lớn */
             text-align: center;
-            width: 100%;
         }
 
         .banner-logo {
@@ -123,7 +122,7 @@
 
         /* Store timeline */
         .storename-container {
-            background: #fff;
+            background: #e81c23;
             padding: 15px 0;
             box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
             margin-top: 80px; /* Khoảng cách từ logo đến timeline */
@@ -174,7 +173,7 @@
         .store-name {
             font-size: 0.85rem;
             font-weight: 600;
-            color: #333;
+            color: white;
         }
 
         .store.active .store-logo {
@@ -524,16 +523,18 @@
     </header>
 
     <!-- Banner -->
-    <div class="timeline-banner" data-store-id="1">
-        <div class="store-bg">
-            <img src="images/Timeline/Timeline.jpg" alt="Pizza Time Background">
+    <div class="timeline-container">
+        <div class="timeline-banner" data-store-id="1">
+            <div class="store-bg">
+                <img src="images/Timeline/Timeline.jpg" alt="Pizza Time Background">
+            </div>
         </div>
 
-        <!-- Thay đổi ở đây -->
+        <!-- Logo trồi ra ngoài -->
         <div class="banner-logo-container">
             <div class="banner-logo">
                 <img src="images/Timeline/logo.jpg" alt="Pizza Logo">
-            </div>            
+            </div>
         </div>
     </div>
 
