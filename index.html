@@ -36,7 +36,7 @@
             margin: 0 auto;
             padding: 0 10px;
             color: #333;
-            padding-bottom: 80px;
+            padding-bottom: 0px;
         }
 
         /* Header */
@@ -46,6 +46,8 @@
             padding: 15px;
             text-align: center;
             box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            font-size: 1.5rem; /* To hơn section-title một chút */
+            font-weight: bold; /* Chữ đậm */
         }
 
         .section-title {
@@ -194,13 +196,16 @@
             display: flex;
             transition: transform 0.3s ease;
             width: 100%;
-            overflow: hidden;
+
+            scroll-snap-type: x mandatory; /* (Optional) để trượt từng combo đẹp hơn */
+            -webkit-overflow-scrolling: touch; /* mượt hơn trên iOS */
         }
 
         .combo-item {
             min-width: 100%;
             flex-shrink: 0;
             position: relative;
+            scroll-snap-align: start;
         }
 
         .combo-img {
@@ -211,6 +216,7 @@
 
         .combo-info {
             padding: 15px;
+            padding-bottom: 60px;
         }
 
         .combo-title {
@@ -554,14 +560,14 @@
                 </div>
             </div>
             <div class="combo-item">
-                <img src="images/Combo/Combo2.jpg" class="combo-img" alt="Combo 2">
+                <img src="images/Combo/Combo7.jpg" class="combo-img" alt="Combo 2">
                 <div class="combo-info">
                     <h3 class="combo-title">Combo Đôi</h3>
                     <p class="combo-desc">1 Pizza cỡ vừa + 2 nước ngọt + 1 phần mì Ý</p>
                 </div>
             </div>
             <div class="combo-item">
-                <img src="images/Combo/Combo7.jpg" class="combo-img" alt="Combo 3">
+                <img src="images/Combo/Combo8.jpg" class="combo-img" alt="Combo 3">
                 <div class="combo-info">
                     <h3 class="combo-title">Combo Party</h3>
                     <p class="combo-desc">2 Pizza cỡ lớn + 4 nước ngọt + 2 món ăn kèm tự chọn</p>
@@ -1194,19 +1200,19 @@
                     const cartItemElement = document.createElement('div');
                     cartItemElement.className = 'cart-item';
                     cartItemElement.innerHTML = `
-                                                                                    <div class="cart-item-info">
-                                                                                        <div class="cart-item-name">${item.name}</div>
-                                                                                        <div class="cart-item-quantity">
-                                                                                            SL:
-                                                                                            <div class="quantity-controls">
-                                                                                                <div class="quantity-btn minus" data-item-id="${itemId}">-</div>
-                                                                                                <div class="quantity" id="cart-qty-${itemId}">${item.quantity}</div>
-                                                                                                <div class="quantity-btn plus" data-item-id="${itemId}">+</div>
+                                                                                        <div class="cart-item-info">
+                                                                                            <div class="cart-item-name">${item.name}</div>
+                                                                                            <div class="cart-item-quantity">
+                                                                                                SL:
+                                                                                                <div class="quantity-controls">
+                                                                                                    <div class="quantity-btn minus" data-item-id="${itemId}">-</div>
+                                                                                                    <div class="quantity" id="cart-qty-${itemId}">${item.quantity}</div>
+                                                                                                    <div class="quantity-btn plus" data-item-id="${itemId}">+</div>
+                                                                                                </div>
                                                                                             </div>
                                                                                         </div>
-                                                                                    </div>
-                                                                                    <div class="cart-item-price">${formatPrice(itemTotal)}</div>
-                                                                                `;
+                                                                                        <div class="cart-item-price">${formatPrice(itemTotal)}</div>
+                                                                                    `;
 
                     cartItems.appendChild(cartItemElement);
 
@@ -1255,9 +1261,9 @@
             const totalElement = document.createElement('div');
             totalElement.className = 'cart-total';
             totalElement.innerHTML = `
-                                                                            <div>Tổng cộng:</div>
-                                                                            <div>${formatPrice(totalPrice)}</div>
-                                                                        `;
+                                                                                <div>Tổng cộng:</div>
+                                                                                <div>${formatPrice(totalPrice)}</div>
+                                                                            `;
 
             cartItems.appendChild(totalElement);
         }
@@ -1480,9 +1486,13 @@
             quickAddBtn.className = 'control-btn';
             quickAddBtn.style.position = 'absolute';
             quickAddBtn.style.bottom = '15px';
-            quickAddBtn.style.right = '15px';
+            quickAddBtn.style.left = '50%';
+            quickAddBtn.style.transform = 'translateX(-50%)'; // căn giữa ngang
             quickAddBtn.style.backgroundColor = '#e81c23';
             quickAddBtn.style.color = 'white';
+            quickAddBtn.style.padding = '8px 20px';
+            quickAddBtn.style.borderRadius = '20px';
+            quickAddBtn.style.fontSize = '0.9rem';
             quickAddBtn.textContent = 'Thêm vào giỏ';
 
             quickAddBtn.addEventListener('click', () => {
@@ -1675,19 +1685,19 @@
         // Add CSS animation for newly loaded page
         const style = document.createElement('style');
         style.textContent = `
-                                                                                body {
-                                                                                    opacity: 0;
-                                                                                    animation: fadeIn 0.5s forwards;
-                                                                                }
+                                                                                    body {
+                                                                                        opacity: 0;
+                                                                                        animation: fadeIn 0.5s forwards;
+                                                                                    }
 
-                                                                                @keyframes fadeIn {
-                                                                                    0% { opacity: 0; }
-                                                                                    100% { opacity: 1; }
-                                                                                }
+                                                                                    @keyframes fadeIn {
+                                                                                        0% { opacity: 0; }
+                                                                                        100% { opacity: 1; }
+                                                                                    }
 
-                                                                                .loaded {
-                                                                                    opacity: 1;
-                                                                                }
+                                                                                    .loaded {
+                                                                                        opacity: 1;
+                                                                                    }
 `;
         document.head.appendChild(style);
 
