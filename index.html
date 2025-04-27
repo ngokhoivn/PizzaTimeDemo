@@ -37,9 +37,9 @@
             scrollbar-width: none; /* Firefox */
         }
 
-        .timeline-container::-webkit-scrollbar {
-            display: none; /* Chrome, Safari, Edge */
-        }
+            .timeline-container::-webkit-scrollbar {
+                display: none; /* Chrome, Safari, Edge */
+            }
 
         .timeline-item {
             flex: 0 0 auto;
@@ -106,27 +106,27 @@
             background-color: white;
         }
 
-        .food-card img {
-            width: 100%;
-            height: 180px;
-            object-fit: cover;
-        }
+            .food-card img {
+                width: 100%;
+                height: 180px;
+                object-fit: cover;
+            }
 
         .food-info {
             padding: 16px;
         }
 
-        .food-info h2 {
-            font-size: 20px;
-            margin-bottom: 8px;
-            color: #333;
-        }
+            .food-info h2 {
+                font-size: 20px;
+                margin-bottom: 8px;
+                color: #333;
+            }
 
-        .food-info p {
-            color: #666;
-            line-height: 1.4;
-            font-size: 14px;
-        }
+            .food-info p {
+                color: #666;
+                line-height: 1.4;
+                font-size: 14px;
+            }
 
         .controls {
             display: flex;
@@ -146,14 +146,14 @@
             transition: background-color 0.2s;
         }
 
-        button:hover {
-            background-color: #3367d6;
-        }
+            button:hover {
+                background-color: #3367d6;
+            }
 
-        button:disabled {
-            opacity: 0.5;
-            cursor: not-allowed;
-        }
+            button:disabled {
+                opacity: 0.5;
+                cursor: not-allowed;
+            }
 
         .counter {
             font-size: 14px;
@@ -175,9 +175,9 @@
             cursor: pointer;
         }
 
-        .dot.active {
-            background-color: #4285f4;
-        }
+            .dot.active {
+                background-color: #4285f4;
+            }
 
         /* Food items styles */
         .food-section {
@@ -204,12 +204,12 @@
             flex-direction: column;
         }
 
-        .food-item img {
-            width: 100%;
-            height: 100px;
-            object-fit: cover;
-            border-radius: 8px;
-        }
+            .food-item img {
+                width: 100%;
+                height: 100px;
+                object-fit: cover;
+                border-radius: 8px;
+            }
 
         .food-item-name {
             margin-top: 5px;
@@ -239,9 +239,9 @@
             align-items: center;
         }
 
-        .quantity-btn:disabled {
-            background-color: #ccc;
-        }
+            .quantity-btn:disabled {
+                background-color: #ccc;
+            }
 
         .quantity {
             margin: 0 8px;
@@ -448,8 +448,6 @@
 
             // Biến toàn cục cho combo
             let currentComboIndex = 0;
-            let comboStartX = null;
-            let comboOffsetX = 0;
             const comboContainer = document.getElementById('comboContainer');
             const comboPrevBtn = document.getElementById('comboPrevBtn');
             const comboNextBtn = document.getElementById('comboNextBtn');
@@ -486,9 +484,9 @@
                     timelineItem.dataset.id = store.id;
 
                     timelineItem.innerHTML = `
-                        <img src="${store.image}" alt="${store.name}" class="timeline-image">
-                        <div class="timeline-name">${store.name}</div>
-                    `;
+                <img src="${store.image}" alt="${store.name}" class="timeline-image">
+                <div class="timeline-name">${store.name}</div>
+            `;
 
                     timelineItem.addEventListener('click', () => {
                         activeStoreId = store.id;
@@ -520,12 +518,12 @@
                     card.style.transform = `translateX(${(index - currentComboIndex) * 100}%)`;
 
                     card.innerHTML = `
-                        <img src="${combo.image}" alt="${combo.name}">
-                        <div class="food-info">
-                            <h2>${combo.name}</h2>
-                            <p>${combo.description}</p>
-                        </div>
-                    `;
+                <img src="${combo.image}" alt="${combo.name}">
+                <div class="food-info">
+                    <h2>${combo.name}</h2>
+                    <p>${combo.description}</p>
+                </div>
+            `;
 
                     comboContainer.appendChild(card);
                 });
@@ -589,49 +587,46 @@
                 }
             }
 
-            // Xử lý sự kiện vuốt combo
+            // Xử lý sự kiện vuốt cho combo
             function handleComboTouchStart(e) {
-                comboStartX = e.touches[0].clientX;
+                window.comboStartX = e.touches[0].clientX;
             }
 
             function handleComboTouchMove(e) {
-                if (comboStartX === null) return;
+                if (!window.comboStartX) return;
 
                 const currentX = e.touches[0].clientX;
-                comboOffsetX = currentX - comboStartX;
+                const diffX = currentX - window.comboStartX;
 
-                // Giới hạn vuốt ở vị trí đầu và cuối
-                if ((currentComboIndex === 0 && comboOffsetX > 0) ||
-                    (currentComboIndex === combos.length - 1 && comboOffsetX < 0)) {
-                    comboOffsetX = comboOffsetX / 3; // Giảm hiệu ứng kéo
+                // Ngăn kéo quá xa ở đầu hoặc cuối danh sách
+                if ((currentComboIndex === 0 && diffX > 0) ||
+                    (currentComboIndex === combos.length - 1 && diffX < 0)) {
+                    return;
                 }
 
-                // Áp dụng dịch chuyển cho tất cả thẻ
                 const cards = document.querySelectorAll('.food-card');
                 cards.forEach((card, index) => {
-                    const position = (index - currentComboIndex) * 100;
-                    card.style.transform = `translateX(calc(${position}% + ${comboOffsetX}px))`;
+                    const translateX = (index - currentComboIndex) * 100 + (diffX / 5);
+                    card.style.transform = `translateX(${translateX}%)`;
                 });
             }
 
-            function handleComboTouchEnd() {
-                if (comboStartX === null) return;
+            function handleComboTouchEnd(e) {
+                if (!window.comboStartX) return;
 
-                if (comboOffsetX > 100 && currentComboIndex > 0) {
-                    goToPrevCombo();
-                } else if (comboOffsetX < -100 && currentComboIndex < combos.length - 1) {
+                const currentX = e.changedTouches[0].clientX;
+                const diffX = currentX - window.comboStartX;
+
+                if (diffX < -50 && currentComboIndex < combos.length - 1) {
                     goToNextCombo();
+                } else if (diffX > 50 && currentComboIndex > 0) {
+                    goToPrevCombo();
                 } else {
-                    // Trở về vị trí ban đầu
-                    const cards = document.querySelectorAll('.food-card');
-                    cards.forEach((card, index) => {
-                        const position = (index - currentComboIndex) * 100;
-                        card.style.transform = `translateX(${position}%)`;
-                    });
+                    // Quay lại vị trí ban đầu
+                    updateComboUI();
                 }
 
-                comboStartX = null;
-                comboOffsetX = 0;
+                window.comboStartX = null;
             }
 
             // Khởi tạo món chính
@@ -639,19 +634,26 @@
                 mainDishSlide.innerHTML = '';
                 mainDishSlide.style.width = `${Math.ceil(mainDishes.length / 3) * 100}%`;
 
-                mainDishes.forEach((dish, index) => {
+                mainDishes.forEach((dish) => {
                     const foodItem = document.createElement('div');
                     foodItem.className = 'food-item';
-                    
+
                     foodItem.innerHTML = `
-                        <img src="${dish.image}" alt="${dish.name}">
-                        <div class="food-item-name">${dish.name}</div>
-                        <div class="quantity-control">
-                            <button class="quantity-btn minus" data-id="${dish.id}" onclick="decreaseQuantity('main', ${dish.id})">-</button>
-                            <span class="quantity" id="main-qty-${dish.id}">0</span>
-                            <button class="quantity-btn plus" data-id="${dish.id}" onclick="increaseQuantity('main', ${dish.id}, '${dish.name}', ${dish.price})">+</button>
-                        </div>
-                    `;
+                <img src="${dish.image}" alt="${dish.name}">
+                <div class="food-item-name">${dish.name}</div>
+                <div class="quantity-control">
+                    <button class="quantity-btn minus" data-id="${dish.id}">-</button>
+                    <span class="quantity" id="main-qty-${dish.id}">0</span>
+                    <button class="quantity-btn plus" data-id="${dish.id}">+</button>
+                </div>
+            `;
+
+                    // Thêm sự kiện cho nút tăng/giảm
+                    const minusBtn = foodItem.querySelector('.minus');
+                    const plusBtn = foodItem.querySelector('.plus');
+
+                    minusBtn.addEventListener('click', () => decreaseQuantity('main', dish.id));
+                    plusBtn.addEventListener('click', () => increaseQuantity('main', dish.id, dish.name, dish.price));
 
                     mainDishSlide.appendChild(foodItem);
                 });
@@ -692,19 +694,26 @@
                 snackSlide.innerHTML = '';
                 snackSlide.style.width = `${Math.ceil(snacks.length / 3) * 100}%`;
 
-                snacks.forEach((snack, index) => {
+                snacks.forEach((snack) => {
                     const foodItem = document.createElement('div');
                     foodItem.className = 'food-item';
-                    
+
                     foodItem.innerHTML = `
-                        <img src="${snack.image}" alt="${snack.name}">
-                        <div class="food-item-name">${snack.name}</div>
-                        <div class="quantity-control">
-                            <button class="quantity-btn minus" data-id="${snack.id}" onclick="decreaseQuantity('snack', ${snack.id})">-</button>
-                            <span class="quantity" id="snack-qty-${snack.id}">0</span>
-                            <button class="quantity-btn plus" data-id="${snack.id}" onclick="increaseQuantity('snack', ${snack.id}, '${snack.name}', ${snack.price})">+</button>
-                        </div>
-                    `;
+                <img src="${snack.image}" alt="${snack.name}">
+                <div class="food-item-name">${snack.name}</div>
+                <div class="quantity-control">
+                    <button class="quantity-btn minus" data-id="${snack.id}">-</button>
+                    <span class="quantity" id="snack-qty-${snack.id}">0</span>
+                    <button class="quantity-btn plus" data-id="${snack.id}">+</button>
+                </div>
+            `;
+
+                    // Thêm sự kiện cho nút tăng/giảm
+                    const minusBtn = foodItem.querySelector('.minus');
+                    const plusBtn = foodItem.querySelector('.plus');
+
+                    minusBtn.addEventListener('click', () => decreaseQuantity('snack', snack.id));
+                    plusBtn.addEventListener('click', () => increaseQuantity('snack', snack.id, snack.name, snack.price));
 
                     snackSlide.appendChild(foodItem);
                 });
@@ -745,19 +754,26 @@
                 drinkSlide.innerHTML = '';
                 drinkSlide.style.width = `${Math.ceil(drinks.length / 3) * 100}%`;
 
-                drinks.forEach((drink, index) => {
+                drinks.forEach((drink) => {
                     const foodItem = document.createElement('div');
                     foodItem.className = 'food-item';
-                    
+
                     foodItem.innerHTML = `
-                        <img src="${drink.image}" alt="${drink.name}">
-                        <div class="food-item-name">${drink.name}</div>
-                        <div class="quantity-control">
-                            <button class="quantity-btn minus" data-id="${drink.id}" onclick="decreaseQuantity('drink', ${drink.id})">-</button>
-                            <span class="quantity" id="drink-qty-${drink.id}">0</span>
-                            <button class="quantity-btn plus" data-id="${drink.id}" onclick="increaseQuantity('drink', ${drink.id}, '${drink.name}', ${drink.price})">+</button>
-                        </div>
-                    `;
+                <img src="${drink.image}" alt="${drink.name}">
+                <div class="food-item-name">${drink.name}</div>
+                <div class="quantity-control">
+                    <button class="quantity-btn minus" data-id="${drink.id}">-</button>
+                    <span class="quantity" id="drink-qty-${drink.id}">0</span>
+                    <button class="quantity-btn plus" data-id="${drink.id}">+</button>
+                </div>
+            `;
+
+                    // Thêm sự kiện cho nút tăng/giảm
+                    const minusBtn = foodItem.querySelector('.minus');
+                    const plusBtn = foodItem.querySelector('.plus');
+
+                    minusBtn.addEventListener('click', () => decreaseQuantity('drink', drink.id));
+                    plusBtn.addEventListener('click', () => increaseQuantity('drink', drink.id, drink.name, drink.price));
 
                     drinkSlide.appendChild(foodItem);
                 });
@@ -773,4 +789,257 @@
                 drinkPrevBtn.disabled = currentDrinkIndex === 0;
                 drinkNextBtn.disabled = currentDrinkIndex === maxIndex;
 
-                drinkSlide.style.transform = `
+                drinkSlide.style.transform = `translateX(-${currentDrinkIndex * 100}%)`;
+            }
+
+            // Chuyển đến nhóm nước uống trước
+            function goToPrevDrink() {
+                if (currentDrinkIndex > 0) {
+                    currentDrinkIndex--;
+                    updateDrinkPosition();
+                }
+            }
+
+            // Chuyển đến nhóm nước uống tiếp theo
+            function goToNextDrink() {
+                const maxIndex = Math.ceil(drinks.length / 3) - 1;
+                if (currentDrinkIndex < maxIndex) {
+                    currentDrinkIndex++;
+                    updateDrinkPosition();
+                }
+            }
+
+            // Xử lý sự kiện vuốt cho các slide food
+            function handleFoodTouchStart(e, containerType) {
+                window.foodStartX = e.touches[0].clientX;
+                window.activeFoodContainer = containerType;
+            }
+
+            function handleFoodTouchMove(e) {
+                if (!window.foodStartX || !window.activeFoodContainer) return;
+
+                const currentX = e.touches[0].clientX;
+                const diffX = currentX - window.foodStartX;
+                let currentIndex, maxIndex, slide;
+
+                switch (window.activeFoodContainer) {
+                    case 'mainDish':
+                        currentIndex = currentMainDishIndex;
+                        maxIndex = Math.ceil(mainDishes.length / 3) - 1;
+                        slide = mainDishSlide;
+                        break;
+                    case 'snack':
+                        currentIndex = currentSnackIndex;
+                        maxIndex = Math.ceil(snacks.length / 3) - 1;
+                        slide = snackSlide;
+                        break;
+                    case 'drink':
+                        currentIndex = currentDrinkIndex;
+                        maxIndex = Math.ceil(drinks.length / 3) - 1;
+                        slide = drinkSlide;
+                        break;
+                }
+
+                // Ngăn kéo quá xa ở đầu hoặc cuối danh sách
+                if ((currentIndex === 0 && diffX > 0) || (currentIndex === maxIndex && diffX < 0)) {
+                    return;
+                }
+
+                const translateX = -currentIndex * 100 + (diffX / 5);
+                slide.style.transform = `translateX(${translateX}%)`;
+            }
+
+            function handleFoodTouchEnd(e) {
+                if (!window.foodStartX || !window.activeFoodContainer) return;
+
+                const currentX = e.changedTouches[0].clientX;
+                const diffX = currentX - window.foodStartX;
+
+                switch (window.activeFoodContainer) {
+                    case 'mainDish':
+                        if (diffX < -50 && currentMainDishIndex < Math.ceil(mainDishes.length / 3) - 1) {
+                            goToNextMainDish();
+                        } else if (diffX > 50 && currentMainDishIndex > 0) {
+                            goToPrevMainDish();
+                        } else {
+                            updateMainDishPosition();
+                        }
+                        break;
+                    case 'snack':
+                        if (diffX < -50 && currentSnackIndex < Math.ceil(snacks.length / 3) - 1) {
+                            goToNextSnack();
+                        } else if (diffX > 50 && currentSnackIndex > 0) {
+                            goToPrevSnack();
+                        } else {
+                            updateSnackPosition();
+                        }
+                        break;
+                    case 'drink':
+                        if (diffX < -50 && currentDrinkIndex < Math.ceil(drinks.length / 3) - 1) {
+                            goToNextDrink();
+                        } else if (diffX > 50 && currentDrinkIndex > 0) {
+                            goToPrevDrink();
+                        } else {
+                            updateDrinkPosition();
+                        }
+                        break;
+                }
+
+                window.foodStartX = null;
+                window.activeFoodContainer = null;
+            }
+
+            // Quản lý giỏ hàng
+            function increaseQuantity(type, id, name, price) {
+                // Tìm sản phẩm trong giỏ hàng
+                let item = cart.find(item => item.type === type && item.id === id);
+
+                if (item) {
+                    // Nếu sản phẩm đã có trong giỏ hàng, tăng số lượng
+                    item.quantity++;
+                } else {
+                    // Nếu chưa có, thêm sản phẩm vào giỏ hàng
+                    cart.push({
+                        type: type,
+                        id: id,
+                        name: name,
+                        price: price,
+                        quantity: 1
+                    });
+                }
+
+                // Cập nhật hiển thị số lượng
+                updateQuantityDisplay(type, id);
+                // Cập nhật số lượng trên nút giỏ hàng
+                updateCartCount();
+            }
+
+            function decreaseQuantity(type, id) {
+                // Tìm sản phẩm trong giỏ hàng
+                const itemIndex = cart.findIndex(item => item.type === type && item.id === id);
+
+                if (itemIndex !== -1) {
+                    // Nếu sản phẩm có trong giỏ hàng
+                    if (cart[itemIndex].quantity > 1) {
+                        // Nếu số lượng > 1, giảm số lượng
+                        cart[itemIndex].quantity--;
+                    } else {
+                        // Nếu số lượng = 1, xóa sản phẩm khỏi giỏ hàng
+                        cart.splice(itemIndex, 1);
+                    }
+
+                    // Cập nhật hiển thị số lượng
+                    updateQuantityDisplay(type, id);
+                    // Cập nhật số lượng trên nút giỏ hàng
+                    updateCartCount();
+                }
+            }
+
+            function updateQuantityDisplay(type, id) {
+                // Tìm sản phẩm trong giỏ hàng
+                const item = cart.find(item => item.type === type && item.id === id);
+                // Lấy phần tử hiển thị số lượng
+                const quantityElement = document.getElementById(`${type}-qty-${id}`);
+
+                if (quantityElement) {
+                    // Cập nhật hiển thị số lượng
+                    quantityElement.textContent = item ? item.quantity : 0;
+                }
+            }
+
+            function updateCartCount() {
+                // Tính tổng số lượng sản phẩm trong giỏ hàng
+                const totalItems = cart.reduce((total, item) => total + item.quantity, 0);
+                // Cập nhật hiển thị số lượng
+                cartCount.textContent = totalItems;
+            }
+
+            // Xử lý khi click vào nút giỏ hàng
+            function showCart() {
+                if (cart.length === 0) {
+                    alert('Giỏ hàng của bạn đang trống!');
+                    return;
+                }
+
+                let totalAmount = 0;
+                let cartContent = 'Giỏ hàng của bạn:\n\n';
+
+                cart.forEach(item => {
+                    const itemTotal = item.price * item.quantity;
+                    totalAmount += itemTotal;
+                    cartContent += `${item.name} x ${item.quantity} = ${itemTotal.toLocaleString()} VND\n`;
+                });
+
+                cartContent += `\nTổng cộng: ${totalAmount.toLocaleString()} VND`;
+
+                if (confirm(cartContent + '\n\nXác nhận đặt hàng?')) {
+                    alert('Đặt hàng thành công! Cảm ơn bạn đã sử dụng dịch vụ của Pizza Time.');
+                    // Xóa giỏ hàng
+                    cart = [];
+                    updateCartCount();
+
+                    // Reset số lượng hiển thị
+                    mainDishes.forEach(dish => {
+                        const quantityElement = document.getElementById(`main-qty-${dish.id}`);
+                        if (quantityElement) quantityElement.textContent = 0;
+                    });
+
+                    snacks.forEach(snack => {
+                        const quantityElement = document.getElementById(`snack-qty-${snack.id}`);
+                        if (quantityElement) quantityElement.textContent = 0;
+                    });
+
+                    drinks.forEach(drink => {
+                        const quantityElement = document.getElementById(`drink-qty-${drink.id}`);
+                        if (quantityElement) quantityElement.textContent = 0;
+                    });
+                }
+            }
+
+            // Khởi tạo ứng dụng
+            function initApp() {
+                initTimeline();
+                initComboCards();
+                initMainDishes();
+                initSnacks();
+                initDrinks();
+
+                // Đăng ký sự kiện combo
+                comboPrevBtn.addEventListener('click', goToPrevCombo);
+                comboNextBtn.addEventListener('click', goToNextCombo);
+                comboContainer.addEventListener('touchstart', handleComboTouchStart);
+                comboContainer.addEventListener('touchmove', handleComboTouchMove);
+                comboContainer.addEventListener('touchend', handleComboTouchEnd);
+
+                // Đăng ký sự kiện món chính
+                mainDishPrevBtn.addEventListener('click', goToPrevMainDish);
+                mainDishNextBtn.addEventListener('click', goToNextMainDish);
+                mainDishContainer.addEventListener('touchstart', (e) => handleFoodTouchStart(e, 'mainDish'));
+                mainDishContainer.addEventListener('touchmove', handleFoodTouchMove);
+                mainDishContainer.addEventListener('touchend', handleFoodTouchEnd);
+
+                // Đăng ký sự kiện món ăn nhẹ
+                snackPrevBtn.addEventListener('click', goToPrevSnack);
+                snackNextBtn.addEventListener('click', goToNextSnack);
+                snackContainer.addEventListener('touchstart', (e) => handleFoodTouchStart(e, 'snack'));
+                snackContainer.addEventListener('touchmove', handleFoodTouchMove);
+                snackContainer.addEventListener('touchend', handleFoodTouchEnd);
+
+                // Đăng ký sự kiện nước uống
+                drinkPrevBtn.addEventListener('click', goToPrevDrink);
+                drinkNextBtn.addEventListener('click', goToNextDrink);
+                drinkContainer.addEventListener('touchstart', (e) => handleFoodTouchStart(e, 'drink'));
+                drinkContainer.addEventListener('touchmove', handleFoodTouchMove);
+                drinkContainer.addEventListener('touchend', handleFoodTouchEnd);
+
+                // Đăng ký sự kiện giỏ hàng
+                document.getElementById('cartBtn').addEventListener('click', showCart);
+            }
+
+        // Khởi tạo ứng dụng
+            initApp();
+        });
+
+    </script>
+</body>
+</html>
