@@ -58,6 +58,8 @@
             gap: 15px;
             padding: 0 15px;
             scrollbar-width: none;
+            user-select: none; /* Không cho chọn text */
+            -webkit-user-drag: none; /* Không cho kéo ảnh */
         }
 
             .timeline::-webkit-scrollbar {
@@ -66,7 +68,7 @@
 
         .store {
             scroll-snap-align: start;
-            min-width: 80px;
+            min-width: 150px;
             display: flex;
             flex-direction: column;
             align-items: center;
@@ -74,6 +76,8 @@
             cursor: pointer;
             border-radius: 10px;
             transition: background-color 0.3s;
+            user-select: none; /* Không cho chọn text */
+            -webkit-user-drag: none; /* Không cho kéo ảnh */
         }
 
             .store.active {
