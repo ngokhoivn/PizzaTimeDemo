@@ -215,23 +215,35 @@
 
         .combo-img-wrapper {
             width: 100%;
-            height: 180px; /* Giữ chiều cao cố định */
+            height: 180px; /* Chiều cao cố định cho desktop */
             overflow: hidden;
             border-top-left-radius: 15px;
             border-top-right-radius: 15px;
-            position: relative; /* Để kiểm soát vị trí ảnh bên trong */
+            position: relative;
+        }
+
+        @media screen and (max-width: 600px) {
+            .combo-img-wrapper {
+                height: 150px; /* Giảm chiều cao trên mobile */
+            }
         }
 
         .combo-img {
             width: 100%;
             height: 100%;
-            object-fit: cover; /* Đảm bảo ảnh lấp đầy khung mà không bị méo */
+            object-fit: cover; /* Lấp đầy khung, giữ tỷ lệ */
             object-position: center; /* Căn giữa ảnh */
             display: block; /* Loại bỏ khoảng trắng dưới ảnh */
-            position: absolute; /* Đặt ảnh tuyệt đối để kiểm soát vị trí */
+            position: absolute;
             top: 50%;
             left: 50%;
-            transform: translate(-50%, -50%); /* Căn giữa ảnh hoàn toàn */
+            transform: translate(-50%, -50%); /* Căn giữa hoàn toàn */
+            background-color: #f0f0f0; /* Fallback nếu ảnh không tải */
+            transition: transform 0.3s ease; /* Hiệu ứng mượt */
+        }
+
+        .combo-item:hover .combo-img {
+            transform: translate(-50%, -50%) scale(1.05); /* Phóng to nhẹ khi hover */
         }
 
         .combo-info {
