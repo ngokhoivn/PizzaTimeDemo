@@ -38,6 +38,9 @@
         body {
             background: linear-gradient(to bottom, #ffffff, #d9fdd3);
             background-color: #f8f9fa;
+            max-width: 600px; /* Giới hạn tối đa chiều rộng */
+            margin: 0 auto; /* Căn giữa */
+            padding: 0 10px; /* Thêm một chút padding 2 bên cho đỡ sát */
             color: #333;
             padding-bottom: 80px;
         }
@@ -68,7 +71,6 @@
             margin-top: 10px;
         }
 
-        /* Timeline (Store Selector) */
         .timeline-container {
             background-color: #fff;
             padding: 15px 0;
@@ -119,11 +121,14 @@
             justify-content: center;
             margin-bottom: 8px;
             overflow: hidden;
+
         }
 
-            .store-logo i {
+            .store-logo img {
                 font-size: 24px;
                 color: #e81c23;
+                object-fit: cover;
+                border-radius: 50%;
             }
 
         .store-name {
