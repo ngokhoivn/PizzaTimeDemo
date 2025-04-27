@@ -445,6 +445,43 @@
         .quantity {
             font-weight: 600;
         }
+
+        .store-bg {
+            width: 100%;
+            height: 100px; /* Chiều cao cố định để ảnh nền không chiếm hết màn hình */
+            overflow: hidden;
+            border-radius: 10px;
+            margin-bottom: 8px;
+        }
+
+            .store-bg img {
+                width: 100%;
+                height: 100%;
+                object-fit: cover; /* Cắt ảnh để vừa khít khung */
+                border-radius: 10px; /* Bo góc ảnh nền */
+            }
+
+        .store-logo {
+            width: 60px;
+            height: 60px;
+            background-color: #fff;
+            border: 2px solid #e81c23;
+            border-radius: 50%;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-top: -30px; /* Đẩy logo nổi lên trên */
+            position: relative;
+            z-index: 1;
+        }
+
+            .store-logo img {
+                width: 100%;
+                height: 100%;
+                object-fit: cover;
+            }
+
     </style>
 </head>
 <body>
@@ -458,7 +495,10 @@
         <div class="store-bg">
             <img src="images/Timeline/Timeline.jpg" alt="Pizza Time Background">
         </div>
-        <div class="store-logo">🍕</div>
+        <div class="store-logo">
+            <img src="images/Logo/logo.png" alt="Pizza Logo">
+            <!-- Hoặc nếu vẫn muốn để emoji thì chỉ cần để emoji bên trong div như cũ -->
+        </div>
         <div class="store-name">Pizza Time</div>
     </div>
 
@@ -1601,27 +1641,27 @@
         <div class="timeline" id="storeTimeline">
             <div class="store active" data-store-id="1">
                 <div class="store-logo">🍕</div>
-                <div class="store-name">Pizza Hut</div>
+                <div class="store-name">Pizza Time Diên Hồng</div>
             </div>
             <div class="store" data-store-id="2">
                 <div class="store-logo">🍕</div>
-                <div class="store-name">Domino's</div>
+                <div class="store-name">Pizza Time Nguyễn Huệ</div>
             </div>
             <div class="store" data-store-id="3">
                 <div class="store-logo">🍕</div>
-                <div class="store-name">The Pizza</div>
+                <div class="store-name">Pizza Time Hà Thanh</div>
             </div>
             <div class="store" data-store-id="4">
                 <div class="store-logo">🍕</div>
-                <div class="store-name">Pizza 4P's</div>
+                <div class="store-name">Pizza Time Đà Nẵng</div>
             </div>
             <div class="store" data-store-id="5">
                 <div class="store-logo">🍕</div>
-                <div class="store-name">Pizza Express</div>
+                <div class="store-name">Pizza Time Tuy Hòa</div>
             </div>
             <div class="store" data-store-id="6">
                 <div class="store-logo">🍕</div>
-                <div class="store-name">Al Fresco's</div>
+                <div class="store-name">Pizza Time Nha Trang</div>
             </div>
         </div>
     </div>
