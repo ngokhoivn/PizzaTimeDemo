@@ -490,8 +490,8 @@
             }
 
         .timeline-logo {
-            width: 140px; /* Kích thước logo */
-            height: 140px;
+            width: 120px; /* Kích thước logo */
+            height: 120px;
             background-color: #fff;
             border: 2px solid #e81c23; /* Viền đỏ */
             border-radius: 50%; /* Bo tròn */
@@ -848,12 +848,6 @@
         document.addEventListener('gesturechange', e => e.preventDefault());
         document.addEventListener('gestureend', e => e.preventDefault());
 
-        // Chặn menu hệ thống trên iOS
-        document.addEventListener('touchmove', e => {
-            if (!e.target.classList.contains('scrollable')) {
-                e.preventDefault();
-            }
-        }, { passive: false });
 
         // Store selection
         const stores = document.querySelectorAll('.store');
