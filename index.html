@@ -442,6 +442,16 @@
             .toast.show {
                 opacity: 1;
             }
+
+        @media (max-width: 768px) {
+            .food-item {
+                flex: 0 0 50% !important; /* Hiển thị 2 món trên mobile */
+            }
+
+            .food-slide-container {
+                height: 220px !important; /* Tăng chiều cao để phù hợp */
+            }
+        }
     </style>
 </head>
 <body>
@@ -801,43 +811,63 @@
 
             // Khởi tạo món chính
             function initMainDishes() {
-                mainDishContainer.innerHTML = '';
+                mainDishContainer.innerHTML = ''; // Clear existing content
 
-                for (let i = 0; i < mainDishes.length; i += 3) {
-                    const group = document.createElement('div');
-                    group.className = 'food-group';
-                    group.style.display = 'flex';
-                    group.style.width = '100%';
+                // Determine items per group based on screen size
+                const isMobile = window.innerWidth <= 768;
+                const itemsPerGroup = isMobile ? 2 : 3;
 
-                    for (let j = i; j < i + 3 && j < mainDishes.length; j++) {
-                        const dish = mainDishes[j];
-                        const foodItem = document.createElement('div');
-                        foodItem.className = 'food-item';
-
-                        foodItem.innerHTML = `
-                    <img src="${dish.image}" alt="${dish.name}">
-                    <div class="food-item-name">${dish.name}</div>
-                    <div class="quantity-control">
-                        <button class="quantity-btn minus" data-id="${dish.id}">-</button>
-                        <span class="quantity" id="main-qty-${dish.id}">0</span>
-                        <button class="quantity-btn plus" data-id="${dish.id}">+</button>
-                    </div>
-                `;
-
-                        const minusBtn = foodItem.querySelector('.minus');
-                        const plusBtn = foodItem.querySelector('.plus');
-
-                        minusBtn.addEventListener('click', () => decreaseQuantity('main', dish.id));
-                        plusBtn.addEventListener('click', () => increaseQuantity('main', dish.id, dish.name, dish.price));
-
-                        group.appendChild(foodItem);
-                    }
-
+                // Create groups of dishes
+                for (let i = 0; i < mainDishes.length; i += itemsPerGroup) {
+                    const group = createDishGroup();
+                    addDishesToGroup(group, i, itemsPerGroup);
                     mainDishContainer.appendChild(group);
                 }
 
-                mainDishSlide.style.width = `${Math.ceil(mainDishes.length / 3) * 100}%`;
+                // Update slider width and position
+                updateSliderWidth(itemsPerGroup);
                 updateMainDishPosition();
+            }
+
+            function createDishGroup() {
+                const group = document.createElement('div');
+                group.className = 'food-group';
+                group.style.display = 'flex';
+                group.style.width = '100%';
+                return group;
+            }
+
+            function addDishesToGroup(group, startIndex, itemsPerGroup) {
+                for (let j = startIndex; j < startIndex + itemsPerGroup && j < mainDishes.length; j++) {
+                    const dish = mainDishes[j];
+                    const foodItem = createFoodItem(dish);
+                    group.appendChild(foodItem);
+                }
+            }
+
+            function createFoodItem(dish) {
+                const foodItem = document.createElement('div');
+                foodItem.className = 'food-item';
+                foodItem.innerHTML = `
+        <img src="${dish.image}" alt="${dish.name}">
+        <div class="food-item-name">${dish.name}</div>
+        <div class="quantity-control">
+            <button class="quantity-btn minus" data-id="${dish.id}">-</button>
+            <span class="quantity" id="main-qty-${dish.id}">0</span>
+            <button class="quantity-btn plus" data-id="${dish.id}">+</button>
+        </div>
+    `;
+
+                // Add event listeners for quantity buttons
+                foodItem.querySelector('.minus').addEventListener('click', () => decreaseQuantity('main', dish.id));
+                foodItem.querySelector('.plus').addEventListener('click', () => increaseQuantity('main', dish.id, dish.name, dish.price));
+
+                return foodItem;
+            }
+
+            function updateSliderWidth(itemsPerGroup) {
+                const groupCount = Math.ceil(mainDishes.length / itemsPerGroup);
+                mainDishSlide.style.width = `${groupCount * 100}%`;
             }
 
 
@@ -884,7 +914,10 @@
 
             // Chuyển đến nhóm món chính tiếp theo
             function goToNextMainDish() {
-                const maxIndex = Math.ceil(mainDishes.length / 3) - 1;
+                const isMobile = window.innerWidth <= 768;
+                const itemsPerGroup = isMobile ? 2 : 3;
+                const maxIndex = Math.ceil(mainDishes.length / itemsPerGroup) - 1;
+
                 if (currentMainDishIndex < maxIndex) {
                     currentMainDishIndex++;
                     updateMainDishPosition();
@@ -894,6 +927,9 @@
             // Khởi tạo món ăn nhẹ
             function initSnacks() {
                 snackSlide.innerHTML = '';
+
+                const isMobile = window.innerWidth <= 768;
+                const itemsPerGroup = isMobile ? 2 : 3;
 
                 // Chia món ăn thành các nhóm, mỗi nhóm tối đa 3 món
                 for (let i = 0; i < snacks.length; i += 3) {
@@ -966,6 +1002,9 @@
             function initDrinks() {
                 drinkSlide.innerHTML = '';
                 drinkSlide.style.width = `${Math.ceil(drinks.length / 3) * 100}%`;
+
+                const isMobile = window.innerWidth <= 768;
+                const itemsPerGroup = isMobile ? 2 : 3;
 
                 drinks.forEach((drink) => {
                     const foodItem = document.createElement('div');
@@ -1325,6 +1364,13 @@
 
             // Khởi tạo ứng dụng
             initApp();
+
+            // Xử lý thay đổi kích thước màn hình
+            window.addEventListener('resize', function () {
+                initMainDishes();
+                initSnacks();
+                initDrinks();
+            });
         });
 
     </script>
