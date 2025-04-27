@@ -598,12 +598,6 @@
                 const currentX = e.touches[0].clientX;
                 const diffX = currentX - window.comboStartX;
 
-                // Ngăn kéo quá xa ở đầu hoặc cuối danh sách
-                if ((currentComboIndex === 0 && diffX > 0) ||
-                    (currentComboIndex === combos.length - 1 && diffX < 0)) {
-                    return;
-                }
-
                 const cards = document.querySelectorAll('.food-card');
                 cards.forEach((card, index) => {
                     const translateX = (index - currentComboIndex) * 100 + (diffX / 5);
@@ -838,11 +832,6 @@
                         maxIndex = Math.ceil(drinks.length / 3) - 1;
                         slide = drinkSlide;
                         break;
-                }
-
-                // Ngăn kéo quá xa ở đầu hoặc cuối danh sách
-                if ((currentIndex === 0 && diffX > 0) || (currentIndex === maxIndex && diffX < 0)) {
-                    return;
                 }
 
                 const translateX = -currentIndex * 100 + (diffX / 5);
