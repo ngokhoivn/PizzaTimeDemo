@@ -2,38 +2,59 @@
 <html lang="vi">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Pizza Time - Đặt Hàng</title>
     <style>
+        :root {
+            --primary-color: #ff4b4b;
+            --secondary-color: #4285f4;
+            --text-color: #333;
+            --text-light: #666;
+            --background-color: #f8f9fa;
+            --white: #ffffff;
+            --border-radius: 12px;
+            --shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            --spacing-xs: 4px;
+            --spacing-sm: 8px;
+            --spacing-md: 16px;
+            --spacing-lg: 24px;
+        }
+
         * {
             box-sizing: border-box;
             margin: 0;
             padding: 0;
+            -webkit-tap-highlight-color: transparent;
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
 
         body {
-            background-color: #f8f9fa;
-            padding: 20px;
-            max-width: 600px;
+            background-color: var(--background-color);
+            color: var(--text-color);
+            padding: var(--spacing-md);
+            max-width: 100%;
             margin: 0 auto;
+            padding-bottom: 80px; /* Space for cart button */
         }
 
         h1 {
             text-align: center;
-            margin-bottom: 16px;
-            color: #333;
+            margin-bottom: var(--spacing-md);
+            font-size: 24px;
+            color: var(--primary-color);
         }
 
         /* Timeline styles */
         .timeline {
-            margin-bottom: 24px;
+            margin-bottom: var(--spacing-lg);
         }
 
         .timeline-container {
             display: flex;
             overflow-x: auto;
-            padding: 10px 0;
+            padding: var(--spacing-sm) 0;
+            scroll-snap-type: x mandatory;
+            -webkit-overflow-scrolling: touch;
             scrollbar-width: none; /* Firefox */
         }
 
@@ -46,9 +67,16 @@
             display: flex;
             flex-direction: column;
             align-items: center;
-            margin-right: 20px;
+            margin-right: var(--spacing-md);
             cursor: pointer;
+            scroll-snap-align: start;
+            transition: transform 0.2s;
+            padding: var(--spacing-xs);
         }
+
+            .timeline-item:active {
+                transform: scale(0.95);
+            }
 
         .timeline-image {
             width: 60px;
@@ -56,31 +84,38 @@
             border-radius: 50%;
             object-fit: cover;
             border: 2px solid #ddd;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
         }
 
         .timeline-item.active .timeline-image {
-            border: 2px solid #4285f4;
+            border: 2px solid var(--primary-color);
         }
 
         .timeline-name {
-            margin-top: 5px;
+            margin-top: var(--spacing-xs);
             font-size: 12px;
             text-align: center;
-            color: #666;
+            color: var(--text-light);
+            max-width: 70px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
         }
 
         .timeline-item.active .timeline-name {
-            color: #4285f4;
+            color: var(--primary-color);
             font-weight: bold;
         }
 
         /* Section title */
         .section-title {
             font-size: 18px;
-            margin: 24px 0 12px;
-            color: #333;
-            border-left: 4px solid #4285f4;
-            padding-left: 10px;
+            margin: var(--spacing-lg) 0 var(--spacing-sm);
+            color: var(--text-color);
+            border-left: 4px solid var(--primary-color);
+            padding-left: var(--spacing-sm);
+            display: flex;
+            align-items: center;
         }
 
         /* Common styles for all swipeable sections */
@@ -88,14 +123,16 @@
             position: relative;
             width: 100%;
             overflow: hidden;
-            border-radius: 12px;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-            margin-bottom: 10px;
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow);
+            margin-bottom: var(--spacing-sm);
+            background-color: var(--white);
         }
 
         /* Combo section */
         .combo-container {
             height: 300px;
+            margin-bottom: 0;
         }
 
         .food-card {
@@ -103,27 +140,29 @@
             width: 100%;
             height: 100%;
             transition: transform 0.3s ease-out;
-            background-color: white;
+            background-color: var(--white);
         }
 
             .food-card img {
                 width: 100%;
-                height: 180px;
+                height: 160px;
                 object-fit: cover;
+                border-top-left-radius: var(--border-radius);
+                border-top-right-radius: var(--border-radius);
             }
 
         .food-info {
-            padding: 16px;
+            padding: var(--spacing-md);
         }
 
             .food-info h2 {
-                font-size: 20px;
-                margin-bottom: 8px;
-                color: #333;
+                font-size: 18px;
+                margin-bottom: var(--spacing-sm);
+                color: var(--text-color);
             }
 
             .food-info p {
-                color: #666;
+                color: var(--text-light);
                 line-height: 1.4;
                 font-size: 14px;
             }
@@ -132,19 +171,28 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 16px;
+            margin: var(--spacing-xs) 0 var(--spacing-md);
         }
 
         button {
-            padding: 8px 16px;
-            background-color: #4285f4;
-            color: white;
+            padding: var(--spacing-sm) var(--spacing-md);
+            background-color: var(--secondary-color);
+            color: var(--white);
             border: none;
-            border-radius: 6px;
+            border-radius: var(--spacing-sm);
             cursor: pointer;
             font-size: 14px;
             transition: background-color 0.2s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-width: 70px;
+            height: 36px;
         }
+
+            button:active {
+                transform: scale(0.97);
+            }
 
             button:hover {
                 background-color: #3367d6;
@@ -157,14 +205,14 @@
 
         .counter {
             font-size: 14px;
-            color: #666;
+            color: var(--text-light);
         }
 
         .indicators {
             display: flex;
             justify-content: center;
-            gap: 8px;
-            margin-bottom: 16px;
+            gap: var(--spacing-sm);
+            margin-bottom: var(--spacing-md);
         }
 
         .dot {
@@ -173,19 +221,27 @@
             border-radius: 50%;
             background-color: #ddd;
             cursor: pointer;
+            transition: transform 0.2s, background-color 0.2s;
         }
 
             .dot.active {
-                background-color: #4285f4;
+                background-color: var(--primary-color);
+                width: 10px;
+                height: 10px;
+            }
+
+            .dot:active {
+                transform: scale(1.2);
             }
 
         /* Food items styles */
         .food-section {
-            margin-top: 20px;
+            margin-top: var(--spacing-lg);
         }
 
         .food-slide-container {
-            height: 200px;
+            height: 170px;
+            margin-bottom: 0;
         }
 
         .food-slide {
@@ -196,58 +252,75 @@
             transition: transform 0.3s ease-out;
         }
 
+        .food-group {
+            display: flex;
+            width: 100%;
+        }
+
         .food-item {
             flex: 0 0 33.333%;
-            padding: 5px;
+            padding: var(--spacing-xs);
             box-sizing: border-box;
             display: flex;
             flex-direction: column;
+            align-items: center;
         }
 
             .food-item img {
                 width: 100%;
-                height: 100px;
+                aspect-ratio: 1/1;
                 object-fit: cover;
-                border-radius: 8px;
+                border-radius: var(--spacing-sm);
+                box-shadow: 0 2px 4px rgba(0,0,0,0.1);
             }
 
         .food-item-name {
-            margin-top: 5px;
+            margin-top: var(--spacing-xs);
             font-size: 12px;
             text-align: center;
-            color: #333;
+            color: var(--text-color);
+            max-width: 100%;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
         }
 
         .quantity-control {
             display: flex;
             justify-content: center;
             align-items: center;
-            margin-top: 5px;
+            margin-top: var(--spacing-xs);
         }
 
         .quantity-btn {
             width: 24px;
             height: 24px;
             border-radius: 50%;
-            background-color: #4285f4;
-            color: white;
+            background-color: var(--primary-color);
+            color: var(--white);
             border: none;
             cursor: pointer;
             font-size: 14px;
             display: flex;
             justify-content: center;
             align-items: center;
+            transition: transform 0.2s;
         }
+
+            .quantity-btn:active {
+                transform: scale(0.9);
+            }
 
             .quantity-btn:disabled {
                 background-color: #ccc;
             }
 
         .quantity {
-            margin: 0 8px;
+            margin: 0 var(--spacing-sm);
             font-size: 14px;
             min-width: 20px;
             text-align: center;
+            font-weight: bold;
         }
 
         /* Cart button */
@@ -258,44 +331,124 @@
             width: 60px;
             height: 60px;
             border-radius: 50%;
-            background-color: #4285f4;
-            color: white;
+            background-color: var(--primary-color);
+            color: var(--white);
             display: flex;
             justify-content: center;
             align-items: center;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
             cursor: pointer;
             z-index: 100;
+            transition: transform 0.3s;
         }
+
+            .cart-button:active {
+                transform: scale(0.95);
+            }
 
         .cart-count {
             position: absolute;
-            top: 0;
-            right: 0;
+            top: -5px;
+            right: -5px;
             width: 24px;
             height: 24px;
             border-radius: 50%;
-            background-color: #ff4b4b;
-            color: white;
+            background-color: var(--secondary-color);
+            color: var(--white);
             display: flex;
             justify-content: center;
             align-items: center;
             font-size: 12px;
             font-weight: bold;
+            border: 2px solid var(--white);
         }
 
         .cart-icon {
             font-size: 24px;
         }
 
-        .food-group {
-            display: flex;
+        /* Progress bar for swiping gestures */
+        .swipe-progress {
+            position: absolute;
+            bottom: 0;
+            left: 0;
             width: 100%;
+            height: 3px;
+            background-color: rgba(0,0,0,0.1);
         }
+
+        .swipe-progress-inner {
+            height: 100%;
+            background-color: var(--primary-color);
+            width: 0%;
+            transition: width 0.3s;
+        }
+
+        /* Loader for better UX */
+        .loader {
+            text-align: center;
+            padding: var(--spacing-lg);
+            display: none;
+        }
+
+        .loader-spinner {
+            display: inline-block;
+            width: 30px;
+            height: 30px;
+            border: 3px solid rgba(0,0,0,0.1);
+            border-radius: 50%;
+            border-top-color: var(--primary-color);
+            animation: spin 0.8s linear infinite;
+        }
+
+        @keyframes spin {
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+        /* Add a badge for popular items */
+        .badge {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background-color: var(--primary-color);
+            color: white;
+            font-size: 10px;
+            padding: 3px 6px;
+            border-radius: 10px;
+            z-index: 1;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+        }
+
+        /* Toast notification */
+        .toast {
+            position: fixed;
+            bottom: 100px;
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: rgba(0,0,0,0.8);
+            color: white;
+            padding: 10px 20px;
+            border-radius: 20px;
+            font-size: 14px;
+            z-index: 1000;
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+
+            .toast.show {
+                opacity: 1;
+            }
     </style>
 </head>
 <body>
     <h1>Pizza Time - Đặt Hàng</h1>
+
+    <!-- Loading indicator -->
+    <div class="loader" id="loader">
+        <div class="loader-spinner"></div>
+    </div>
 
     <!-- Timeline của cửa hàng -->
     <div class="timeline">
@@ -308,12 +461,15 @@
     <h2 class="section-title">Combo Đang Hot</h2>
     <div class="swipe-container combo-container" id="comboContainer">
         <!-- Combo cards will be dynamically inserted here -->
+        <div class="swipe-progress">
+            <div class="swipe-progress-inner" id="comboProgress"></div>
+        </div>
     </div>
 
     <div class="controls">
-        <button id="comboPrevBtn" disabled>Trước</button>
+        <button id="comboPrevBtn" disabled>← Trước</button>
         <span class="counter" id="comboCounter">1 / 5</span>
-        <button id="comboNextBtn">Tiếp</button>
+        <button id="comboNextBtn">Tiếp →</button>
     </div>
 
     <div class="indicators" id="comboIndicators">
@@ -326,10 +482,13 @@
         <div class="food-slide" id="mainDishSlide">
             <!-- Main dish items will be dynamically inserted here -->
         </div>
+        <div class="swipe-progress">
+            <div class="swipe-progress-inner" id="mainDishProgress"></div>
+        </div>
     </div>
     <div class="controls">
-        <button id="mainDishPrevBtn" disabled>Trước</button>
-        <button id="mainDishNextBtn">Tiếp</button>
+        <button id="mainDishPrevBtn" disabled>← Trước</button>
+        <button id="mainDishNextBtn">Tiếp →</button>
     </div>
 
     <!-- Danh sách món ăn nhẹ -->
@@ -338,10 +497,13 @@
         <div class="food-slide" id="snackSlide">
             <!-- Snack items will be dynamically inserted here -->
         </div>
+        <div class="swipe-progress">
+            <div class="swipe-progress-inner" id="snackProgress"></div>
+        </div>
     </div>
     <div class="controls">
-        <button id="snackPrevBtn" disabled>Trước</button>
-        <button id="snackNextBtn">Tiếp</button>
+        <button id="snackPrevBtn" disabled>← Trước</button>
+        <button id="snackNextBtn">Tiếp →</button>
     </div>
 
     <!-- Nước uống -->
@@ -350,10 +512,13 @@
         <div class="food-slide" id="drinkSlide">
             <!-- Drink items will be dynamically inserted here -->
         </div>
+        <div class="swipe-progress">
+            <div class="swipe-progress-inner" id="drinkProgress"></div>
+        </div>
     </div>
     <div class="controls">
-        <button id="drinkPrevBtn" disabled>Trước</button>
-        <button id="drinkNextBtn">Tiếp</button>
+        <button id="drinkPrevBtn" disabled>← Trước</button>
+        <button id="drinkNextBtn">Tiếp →</button>
     </div>
 
     <!-- Nút giỏ hàng -->
@@ -361,6 +526,9 @@
         <span class="cart-count" id="cartCount">0</span>
         <span class="cart-icon">🛒</span>
     </div>
+
+    <!-- Toast notification -->
+    <div class="toast" id="toast"></div>
 
     <script>
         document.addEventListener('DOMContentLoaded', function () {
@@ -489,9 +657,9 @@
                     timelineItem.dataset.id = store.id;
 
                     timelineItem.innerHTML = `
-                <img src="${store.image}" alt="${store.name}" class="timeline-image">
-                <div class="timeline-name">${store.name}</div>
-            `;
+                    <img src="${store.image}" alt="${store.name}" class="timeline-image">
+                    <div class="timeline-name">${store.name}</div>
+                `;
 
                     timelineItem.addEventListener('click', () => {
                         activeStoreId = store.id;
@@ -523,12 +691,12 @@
                     card.style.transform = `translateX(${(index - currentComboIndex) * 100}%)`;
 
                     card.innerHTML = `
-                <img src="${combo.image}" alt="${combo.name}">
-                <div class="food-info">
-                    <h2>${combo.name}</h2>
-                    <p>${combo.description}</p>
-                </div>
-            `;
+                    <img src="${combo.image}" alt="${combo.name}">
+                    <div class="food-info">
+                        <h2>${combo.name}</h2>
+                        <p>${combo.description}</p>
+                    </div>
+                `;
 
                     comboContainer.appendChild(card);
                 });
@@ -603,15 +771,16 @@
                 const currentX = e.touches[0].clientX;
                 const diffX = currentX - window.comboStartX;
 
-                // Ngăn kéo quá xa ở đầu hoặc cuối danh sách
-                if ((currentComboIndex === 0 && diffX > 0) ||
-                    (currentComboIndex === combos.length - 1 && diffX < 0)) {
-
-                }
-
                 const cards = document.querySelectorAll('.food-card');
                 cards.forEach((card, index) => {
-                    const translateX = (index - currentComboIndex) * 100 + (diffX / 5);
+                    // Giới hạn chuyển động để không vượt quá đầu/cuối
+                    let translateX = (index - currentComboIndex) * 100 + (diffX / 10); // Giảm độ nhạy
+                    if (currentComboIndex === 0 && diffX > 0) {
+                        translateX = Math.min(translateX, 0); // Không cho kéo qua trái đầu danh sách
+                    }
+                    if (currentComboIndex === combos.length - 1 && diffX < 0) {
+                        translateX = Math.max(translateX, (index - currentComboIndex) * 100); // Không cho kéo qua phải cuối danh sách
+                    }
                     card.style.transform = `translateX(${translateX}%)`;
                 });
             }
@@ -622,13 +791,13 @@
                 const currentX = e.changedTouches[0].clientX;
                 const diffX = currentX - window.comboStartX;
 
-                if (diffX < -50 && currentComboIndex < combos.length - 1) {
+                // Tăng ngưỡng để tránh nhảy quá nhanh
+                if (diffX < -100 && currentComboIndex < combos.length - 1) { // Ngưỡng -100 thay vì -50
                     goToNextCombo();
-                } else if (diffX > 50 && currentComboIndex > 0) {
+                } else if (diffX > 100 && currentComboIndex > 0) { // Ngưỡng 100 thay vì 50
                     goToPrevCombo();
                 } else {
-                    // Quay lại vị trí ban đầu
-                    updateComboUI();
+                    updateComboUI(); // Quay lại vị trí hợp lệ
                 }
 
                 window.comboStartX = null;
@@ -650,14 +819,14 @@
                         foodItem.className = 'food-item';
 
                         foodItem.innerHTML = `
-                <img src="${dish.image}" alt="${dish.name}">
-                <div class="food-item-name">${dish.name}</div>
-                <div class="quantity-control">
-                    <button class="quantity-btn minus" data-id="${dish.id}">-</button>
-                    <span class="quantity" id="main-qty-${dish.id}">0</span>
-                    <button class="quantity-btn plus" data-id="${dish.id}">+</button>
-                </div>
-            `;
+                    <img src="${dish.image}" alt="${dish.name}">
+                    <div class="food-item-name">${dish.name}</div>
+                    <div class="quantity-control">
+                        <button class="quantity-btn minus" data-id="${dish.id}">-</button>
+                        <span class="quantity" id="main-qty-${dish.id}">0</span>
+                        <button class="quantity-btn plus" data-id="${dish.id}">+</button>
+                    </div>
+                `;
 
                         const minusBtn = foodItem.querySelector('.minus');
                         const plusBtn = foodItem.querySelector('.plus');
@@ -707,32 +876,43 @@
             // Khởi tạo món ăn nhẹ
             function initSnacks() {
                 snackSlide.innerHTML = '';
+
+                // Chia món ăn thành các nhóm, mỗi nhóm tối đa 3 món
+                for (let i = 0; i < snacks.length; i += 3) {
+                    const group = document.createElement('div');
+                    group.className = 'food-group';
+                    group.style.display = 'flex';
+                    group.style.width = '100%';
+
+                    for (let j = i; j < i + 3 && j < snacks.length; j++) {
+                        const snack = snacks[j];
+                        const foodItem = document.createElement('div');
+                        foodItem.className = 'food-item';
+
+                        foodItem.innerHTML = `
+                    <img src="${snack.image}" alt="${snack.name}">
+                    <div class="food-item-name">${snack.name}</div>
+                    <div class="quantity-control">
+                        <button class="quantity-btn minus" data-id="${snack.id}">-</button>
+                        <span class="quantity" id="snack-qty-${snack.id}">0</span>
+                        <button class="quantity-btn plus" data-id="${snack.id}">+</button>
+                    </div>
+                `;
+
+                        const minusBtn = foodItem.querySelector('.minus');
+                        const plusBtn = foodItem.querySelector('.plus');
+
+                        minusBtn.addEventListener('click', () => decreaseQuantity('snack', snack.id));
+                        plusBtn.addEventListener('click', () => increaseQuantity('snack', snack.id, snack.name, snack.price));
+
+                        group.appendChild(foodItem);
+                    }
+
+                    snackSlide.appendChild(group);
+                }
+
+                // Cập nhật chiều rộng slide dựa trên số nhóm
                 snackSlide.style.width = `${Math.ceil(snacks.length / 3) * 100}%`;
-
-                snacks.forEach((snack) => {
-                    const foodItem = document.createElement('div');
-                    foodItem.className = 'food-item';
-
-                    foodItem.innerHTML = `
-                <img src="${snack.image}" alt="${snack.name}">
-                <div class="food-item-name">${snack.name}</div>
-                <div class="quantity-control">
-                    <button class="quantity-btn minus" data-id="${snack.id}">-</button>
-                    <span class="quantity" id="snack-qty-${snack.id}">0</span>
-                    <button class="quantity-btn plus" data-id="${snack.id}">+</button>
-                </div>
-            `;
-
-                    // Thêm sự kiện cho nút tăng/giảm
-                    const minusBtn = foodItem.querySelector('.minus');
-                    const plusBtn = foodItem.querySelector('.plus');
-
-                    minusBtn.addEventListener('click', () => decreaseQuantity('snack', snack.id));
-                    plusBtn.addEventListener('click', () => increaseQuantity('snack', snack.id, snack.name, snack.price));
-
-                    snackSlide.appendChild(foodItem);
-                });
-
                 updateSnackPosition();
             }
 
@@ -774,14 +954,14 @@
                     foodItem.className = 'food-item';
 
                     foodItem.innerHTML = `
-                <img src="${drink.image}" alt="${drink.name}">
-                <div class="food-item-name">${drink.name}</div>
-                <div class="quantity-control">
-                    <button class="quantity-btn minus" data-id="${drink.id}">-</button>
-                    <span class="quantity" id="drink-qty-${drink.id}">0</span>
-                    <button class="quantity-btn plus" data-id="${drink.id}">+</button>
-                </div>
-            `;
+                    <img src="${drink.image}" alt="${drink.name}">
+                    <div class="food-item-name">${drink.name}</div>
+                    <div class="quantity-control">
+                        <button class="quantity-btn minus" data-id="${drink.id}">-</button>
+                        <span class="quantity" id="drink-qty-${drink.id}">0</span>
+                        <button class="quantity-btn plus" data-id="${drink.id}">+</button>
+                    </div>
+                `;
 
                     // Thêm sự kiện cho nút tăng/giảm
                     const minusBtn = foodItem.querySelector('.minus');
@@ -857,10 +1037,10 @@
 
                 // Ngăn kéo quá xa ở đầu hoặc cuối danh sách
                 if ((currentIndex === 0 && diffX > 0) || (currentIndex === maxIndex && diffX < 0)) {
-                    
+
                 }
 
-                const translateX = -currentIndex * 100 + (diffX / 5);
+                const translateX = -currentIndex * 100 + (diffX / 10);
                 slide.style.transform = `translateX(${translateX}%)`;
             }
 
@@ -872,18 +1052,18 @@
 
                 switch (window.activeFoodContainer) {
                     case 'mainDish':
-                        if (diffX < -50 && currentMainDishIndex < Math.ceil(mainDishes.length / 3) - 1) {
+                        if (diffX < -100 && currentMainDishIndex < Math.ceil(mainDishes.length / 3) - 1) {
                             goToNextMainDish();
-                        } else if (diffX > 50 && currentMainDishIndex > 0) {
+                        } else if (diffX > 100 && currentMainDishIndex > 0) {
                             goToPrevMainDish();
                         } else {
                             updateMainDishPosition();
                         }
                         break;
                     case 'snack':
-                        if (diffX < -50 && currentSnackIndex < Math.ceil(snacks.length / 3) - 1) {
+                        if (diffX < -100 && currentSnackIndex < Math.ceil(snacks.length / 3) - 1) {
                             goToNextSnack();
-                        } else if (diffX > 50 && currentSnackIndex > 0) {
+                        } else if (diffX > 100 && currentSnackIndex > 0) {
                             goToPrevSnack();
                         } else {
                             updateSnackPosition();
@@ -892,7 +1072,7 @@
                     case 'drink':
                         if (diffX < -50 && currentDrinkIndex < Math.ceil(drinks.length / 3) - 1) {
                             goToNextDrink();
-                        } else if (diffX > 50 && currentDrinkIndex > 0) {
+                        } else if (diffX > 100 && currentDrinkIndex > 0) {
                             goToPrevDrink();
                         } else {
                             updateDrinkPosition();
@@ -1051,7 +1231,7 @@
                 document.getElementById('cartBtn').addEventListener('click', showCart);
             }
 
-        // Khởi tạo ứng dụng
+            // Khởi tạo ứng dụng
             initApp();
         });
 
