@@ -5,30 +5,30 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Pizza Time - Đặt Hàng</title>
     <style>
-        /* Ngăn chặn chọn văn bản và kéo ảnh */
-        body {
-            -webkit-user-select: none; /* Chrome/Safari */
+        /* CSS chống selection và touch mặc định */
+        html, body {
+            -webkit-touch-callout: none; /* iOS Safari */
+            -webkit-user-select: none; /* Chrome/Safari/Opera */
             -moz-user-select: none; /* Firefox */
             -ms-user-select: none; /* IE/Edge */
             user-select: none; /* Chuẩn chung */
-            -webkit-user-drag: none; /* Không cho kéo ảnh */
-            -webkit-touch-callout: none; /* Không hiện menu khi nhấn giữ (iOS) */
+
+            -webkit-tap-highlight-color: transparent; /* Loại bỏ highlight khi chạm */
+            touch-action: manipulation; /* Chỉ cho phép các cử chỉ đơn giản */
         }
 
-        /* Các style khác giữ nguyên */
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        /* Cho phép selection trong các trường nhập liệu */
+        input, textarea, [contenteditable] {
+            -webkit-user-select: text !important;
+            user-select: text !important;
         }
 
-        body {
-            background-color: #f8f9fa;
-            color: #333;
-            padding-bottom: 80px;
+        /* Chống kéo thả hình ảnh */
+        img, a {
+            -webkit-user-drag: none;
+            pointer-events: none; /* Thêm dòng này để chặn tương tác */
         }
-        * {
+            * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
@@ -517,13 +517,20 @@
             margin-top: 5px;
         }
 
+        .store-banner {
+            scroll-snap-align: start;
+            min-width: 150px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 10px;
+            user-select: none;
+        }
+
 
     </style>
 </head>
-<body>
-
-
-    
+<body ontouchstart ="" oncontextmenu="return false" ondragstart="return false">
 
     <!-- Header -->
     <header>
@@ -531,7 +538,7 @@
     </header>
 
     <!-- Timeline (Store Selector) -->
-    <div class="store" data-store-id="1">
+    <div class="store-banner" data-store-id="1">
         <div class="store-bg">
             <img src="images/Timeline/Timeline.jpg" alt="Pizza Time Background">
         </div>
@@ -823,6 +830,31 @@
 
 
     <script>
+
+        // Chặn toàn diện các sự kiện không mong muốn
+        document.addEventListener('contextmenu', e => e.preventDefault());
+        document.addEventListener('selectstart', e => e.preventDefault());
+        document.addEventListener('dragstart', e => e.preventDefault());
+
+        // Chặn menu chia sẻ trên Android/Chrome
+        document.addEventListener('gesturestart', e => e.preventDefault());
+
+        // Chặn hành vi mặc định khi chạm giữ
+        document.addEventListener('touchstart', e => {
+            if (e.touches.length > 1) e.preventDefault();
+        }, { passive: false });
+
+        // Chặn phóng to bằng cử chỉ
+        document.addEventListener('gesturechange', e => e.preventDefault());
+        document.addEventListener('gestureend', e => e.preventDefault());
+
+        // Chặn menu hệ thống trên iOS
+        document.addEventListener('touchmove', e => {
+            if (!e.target.classList.contains('scrollable')) {
+                e.preventDefault();
+            }
+        }, { passive: false });
+
         // Store selection
         const stores = document.querySelectorAll('.store');
         stores.forEach(store => {
@@ -1176,19 +1208,19 @@
                     const cartItemElement = document.createElement('div');
                     cartItemElement.className = 'cart-item';
                     cartItemElement.innerHTML = `
-                                                        <div class="cart-item-info">
-                                                            <div class="cart-item-name">${item.name}</div>
-                                                            <div class="cart-item-quantity">
-                                                                SL:
-                                                                <div class="quantity-controls">
-                                                                    <div class="quantity-btn minus" data-item-id="${itemId}">-</div>
-                                                                    <div class="quantity" id="cart-qty-${itemId}">${item.quantity}</div>
-                                                                    <div class="quantity-btn plus" data-item-id="${itemId}">+</div>
+                                                            <div class="cart-item-info">
+                                                                <div class="cart-item-name">${item.name}</div>
+                                                                <div class="cart-item-quantity">
+                                                                    SL:
+                                                                    <div class="quantity-controls">
+                                                                        <div class="quantity-btn minus" data-item-id="${itemId}">-</div>
+                                                                        <div class="quantity" id="cart-qty-${itemId}">${item.quantity}</div>
+                                                                        <div class="quantity-btn plus" data-item-id="${itemId}">+</div>
+                                                                    </div>
                                                                 </div>
                                                             </div>
-                                                        </div>
-                                                        <div class="cart-item-price">${formatPrice(itemTotal)}</div>
-                                                    `;
+                                                            <div class="cart-item-price">${formatPrice(itemTotal)}</div>
+                                                        `;
 
                     cartItems.appendChild(cartItemElement);
 
@@ -1237,9 +1269,9 @@
             const totalElement = document.createElement('div');
             totalElement.className = 'cart-total';
             totalElement.innerHTML = `
-                                                <div>Tổng cộng:</div>
-                                                <div>${formatPrice(totalPrice)}</div>
-                                            `;
+                                                    <div>Tổng cộng:</div>
+                                                    <div>${formatPrice(totalPrice)}</div>
+                                                `;
 
             cartItems.appendChild(totalElement);
         }
@@ -1652,19 +1684,19 @@
         // Add CSS animation for newly loaded page
         const style = document.createElement('style');
         style.textContent = `
-                                                    body {
-                                                        opacity: 0;
-                                                        animation: fadeIn 0.5s forwards;
-                                                    }
+                                                        body {
+                                                            opacity: 0;
+                                                            animation: fadeIn 0.5s forwards;
+                                                        }
 
-                                                    @keyframes fadeIn {
-                                                        0% { opacity: 0; }
-                                                        100% { opacity: 1; }
-                                                    }
+                                                        @keyframes fadeIn {
+                                                            0% { opacity: 0; }
+                                                            100% { opacity: 1; }
+                                                        }
 
-                                                    .loaded {
-                                                        opacity: 1;
-                                                    }
+                                                        .loaded {
+                                                            opacity: 1;
+                                                        }
 `;
         document.head.appendChild(style);
 
@@ -1705,5 +1737,5 @@
             </div>
         </div>
     </div>
-</body>
+    </body>
 </html>
