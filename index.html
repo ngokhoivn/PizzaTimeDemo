@@ -27,45 +27,13 @@
         </div>
     </div>
 
+    <!-- Combo Hot Section -->
     <div class="container">
-        <!-- Combo Hot Section -->
         <h2 class="section-title">Combo Hot</h2>
         <div class="combo-container">
             <div class="combo-slider-wrapper">
                 <div class="combo-slider" id="comboSlider">
-                    <div class="combo-item">
-                        <div class="combo-img-wrapper">
-                            <img src="images/Combo/Combo1.jfif" class="combo-img" alt="Combo Gia Đình" loading="lazy">
-                        </div>
-                        <div class="combo-info">
-                            <h3 class="combo-title">Combo Gia Đình</h3>
-                            <p class="combo-desc">1 Pizza cỡ lớn + 2 nước ngọt + 1 phần khoai tây chiên</p>
-                            <div class="combo-price">299.000đ</div>
-                            <button class="quick-add-btn" data-combo-id="combo1" data-combo-name="Combo Gia Đình" data-combo-price="299000">Thêm vào giỏ</button>
-                        </div>
-                    </div>
-                    <div class="combo-item">
-                        <div class="combo-img-wrapper">
-                            <img src="images/Combo/Combo7.jpg" class="combo-img" alt="Combo Đôi" loading="lazy">
-                        </div>
-                        <div class="combo-info">
-                            <h3 class="combo-title">Combo Đôi</h3>
-                            <p class="combo-desc">Pizza cỡ vừa + 2 nước ngọt + 1 phần mì Ý</p>
-                            <div class="combo-price">199.000đ</div>
-                            <button class="quick-add-btn" data-combo-id="combo2" data-combo-name="Combo Đôi" data-combo-price="199000">Thêm vào giỏ</button>
-                        </div>
-                    </div>
-                    <div class="combo-item">
-                        <div class="combo-img-wrapper">
-                            <img src="images/Combo/Combo8.jpg" class="combo-img" alt="Combo Party" loading="lazy">
-                        </div>
-                        <div class="combo-info">
-                            <h3 class="combo-title">Combo Party</h3>
-                            <p class="combo-desc">2 Pizza cỡ lớn + 4 nước ngọt + 2 món ăn kèm tự chọn</p>
-                            <div class="combo-price">499.000đ</div>
-                            <button class="quick-add-btn" data-combo-id="combo3" data-combo-name="Combo Party" data-combo-price="499000">Thêm vào giỏ</button>
-                        </div>
-                    </div>
+                    <!-- Các combo-item sẽ được generate tự động -->
                 </div>
             </div>
             <div class="combo-controls">
@@ -73,9 +41,7 @@
                     <button id="comboPrevBtn" class="control-btn" disabled>&larr;</button>
                 </div>
                 <div class="combo-dots" id="comboDots">
-                    <div class="combo-dot active"></div>
-                    <div class="combo-dot"></div>
-                    <div class="combo-dot"></div>
+                    <!-- Dots sẽ được tạo động -->
                 </div>
                 <div class="control-buttons">
                     <button id="comboNextBtn" class="control-btn">&rarr;</button>
@@ -88,56 +54,7 @@
     <h2 class="section-title">Món Chính</h2>
     <div class="food-section">
         <div class="food-container">
-            <div class="food-slider" id="mainDishSlider">
-                <div class="food-item" data-item-id="m1" data-item-type="main" data-price="139000">
-                    <img src="images/MainDishes/Pizza_Hai_San.jpg" class="food-img" alt="Pizza Hải Sản">
-                    <div class="food-info">
-                        <h3 class="food-title">Pizza Hải Sản</h3>
-                        <div class="food-price">139.000đ</div>
-                        <div class="quantity-controls">
-                            <div class="quantity-btn minus" data-item-id="m1" data-item-type="main">-</div>
-                            <div class="quantity" id="qty-m1">0</div>
-                            <div class="quantity-btn plus" data-item-id="m1" data-item-type="main">+</div>
-                        </div>
-                    </div>
-                </div>
-                <div class="food-item" data-item-id="m2" data-item-type="main" data-price="129000">
-                    <img src="images/MainDishes/PepperoniPizza.jpg" class="food-img" alt="Pizza Pepperoni">
-                    <div class="food-info">
-                        <h3 class="food-title">Pizza Pepperoni</h3>
-                        <div class="food-price">129.000đ</div>
-                        <div class="quantity-controls">
-                            <div class="quantity-btn minus" data-item-id="m2" data-item-type="main">-</div>
-                            <div class="quantity" id="qty-m2">0</div>
-                            <div class="quantity-btn plus" data-item-id="m2" data-item-type="main">+</div>
-                        </div>
-                    </div>
-                </div>
-                <div class="food-item" data-item-id="m3" data-item-type="main" data-price="149000">
-                    <img src="images/MainDishes/pizza_hawaii.jfif" class="food-img" alt="Pizza Hawaii">
-                    <div class="food-info">
-                        <h3 class="food-title">Pizza Hawaii</h3>
-                        <div class="food-price">149.000đ</div>
-                        <div class="quantity-controls">
-                            <div class="quantity-btn minus" data-item-id="m3" data-item-type="main">-</div>
-                            <div class="quantity" id="qty-m3">0</div>
-                            <div class="quantity-btn plus" data-item-id="m3" data-item-type="main">+</div>
-                        </div>
-                    </div>
-                </div>
-                <div class="food-item" data-item-id="m4" data-item-type="main" data-price="159000">
-                    <img src="images/MainDishes/Pizza_thit_hon_hop.jpg" class="food-img" alt="Pizza Thịt Hỗn Hợp">
-                    <div class="food-info">
-                        <h3 class="food-title">Pizza Thịt Hỗn Hợp</h3>
-                        <div class="food-price">159.000đ</div>
-                        <div class="quantity-controls">
-                            <div class="quantity-btn minus" data-item-id="m4" data-item-type="main">-</div>
-                            <div class="quantity" id="qty-m4">0</div>
-                            <div class="quantity-btn plus" data-item-id="m4" data-item-type="main">+</div>
-                        </div>
-                    </div>
-                </div>
-            </div>
+            <div class="food-slider" id="mainDishSlider"></div>
         </div>
         <div class="section-controls">
             <button id="mainPrevBtn" class="control-btn" disabled>&larr; Trước</button>
@@ -149,68 +66,7 @@
     <h2 class="section-title">Món Ăn Kèm</h2>
     <div class="food-section">
         <div class="food-container">
-            <div class="food-slider" id="sideSlider">
-                <div class="food-item" data-item-id="s1" data-item-type="side" data-price="49000">
-                    <img src="images/Snacks/khoai_tay_chien.jfif" class="food-img" alt="Khoai Tây Chiên">
-                    <div class="food-info">
-                        <h3 class="food-title">Khoai Tây Chiên</h3>
-                        <div class="food-price">49.000đ</div>
-                        <div class="quantity-controls">
-                            <div class="quantity-btn minus" data-item-id="s1" data-item-type="side">-</div>
-                            <div class="quantity" id="qty-s1">0</div>
-                            <div class="quantity-btn plus" data-item-id="s1" data-item-type="side">+</div>
-                        </div>
-                    </div>
-                </div>
-                <div class="food-item" data-item-id="s2" data-item-type="side" data-price="59000">
-                    <img src="images/Snacks/mi_y_dut_lo.jpg" class="food-img" alt="Mì Ý Sốt Bò Bằm">
-                    <div class="food-info">
-                        <h3 class="food-title">Mì Ý Sốt Bò Bằm</h3>
-                        <div class="food-price">59.000đ</div>
-                        <div class="quantity-controls">
-                            <div class="quantity-btn minus" data-item-id="s2" data-item-type="side">-</div>
-                            <div class="quantity" id="qty-s2">0</div>
-                            <div class="quantity-btn plus" data-item-id="s2" data-item-type="side">+</div>
-                        </div>
-                    </div>
-                </div>
-                <div class="food-item" data-item-id="s3" data-item-type="side" data-price="69000">
-                    <img src="images/Snacks/ga_sot_cay.webp" class="food-img" alt="Gà Cay Phô Mai">
-                    <div class="food-info">
-                        <h3 class="food-title">Gà Cay Phô Mai</h3>
-                        <div class="food-price">69.000đ</div>
-                        <div class="quantity-controls">
-                            <div class="quantity-btn minus" data-item-id="s3" data-item-type="side">-</div>
-                            <div class="quantity" id="qty-s3">0</div>
-                            <div class="quantity-btn plus" data-item-id="s3" data-item-type="side">+</div>
-                        </div>
-                    </div>
-                </div>
-                <div class="food-item" data-item-id="s4" data-item-type="side" data-price="45000">
-                    <img src="images/Snacks/salad_ca_ngu.jfif" class="food-img" alt="Salad Trộn">
-                    <div class="food-info">
-                        <h3 class="food-title">Salad Trộn</h3>
-                        <div class="food-price">45.000đ</div>
-                        <div class="quantity-controls">
-                            <div class="quantity-btn minus" data-item-id="s4" data-item-type="side">-</div>
-                            <div class="quantity" id="qty-s4">0</div>
-                            <div class="quantity-btn plus" data-item-id="s4" data-item-type="side">+</div>
-                        </div>
-                    </div>
-                </div>
-                <div class="food-item" data-item-id="s5" data-item-type="side" data-price="55000">
-                    <img src="images/Snacks/tok_lac_pho_mai.jpg" class="food-img" alt="Tokbokki">
-                    <div class="food-info">
-                        <h3 class="food-title">Tokbokki</h3>
-                        <div class="food-price">55.000đ</div>
-                        <div class="quantity-controls">
-                            <div class="quantity-btn minus" data-item-id="s5" data-item-type="side">-</div>
-                            <div class="quantity" id="qty-s5">0</div>
-                            <div class="quantity-btn plus" data-item-id="s5" data-item-type="side">+</div>
-                        </div>
-                    </div>
-                </div>
-            </div>
+            <div class="food-slider" id="sideSlider"></div>
         </div>
         <div class="section-controls">
             <button id="sidePrevBtn" class="control-btn" disabled>&larr; Trước</button>
@@ -222,68 +78,7 @@
     <h2 class="section-title">Nước Uống</h2>
     <div class="food-section">
         <div class="food-container">
-            <div class="food-slider" id="drinkSlider">
-                <div class="food-item" data-item-id="d1" data-item-type="drink" data-price="15000">
-                    <img src="images/Drinks/cocacola.webp" class="food-img" alt="Coca Cola">
-                    <div class="food-info">
-                        <h3 class="food-title">Coca Cola</h3>
-                        <div class="food-price">15.000đ</div>
-                        <div class="quantity-controls">
-                            <div class="quantity-btn minus" data-item-id="d1" data-item-type="drink">-</div>
-                            <div class="quantity" id="qty-d1">0</div>
-                            <div class="quantity-btn plus" data-item-id="d1" data-item-type="drink">+</div>
-                        </div>
-                    </div>
-                </div>
-                <div class="food-item" data-item-id="d2" data-item-type="drink" data-price="15000">
-                    <img src="images/Drinks/pepsi.webp" class="food-img" alt="Pepsi">
-                    <div class="food-info">
-                        <h3 class="food-title">Pepsi</h3>
-                        <div class="food-price">15.000đ</div>
-                        <div class="quantity-controls">
-                            <div class="quantity-btn minus" data-item-id="d2" data-item-type="drink">-</div>
-                            <div class="quantity" id="qty-d2">0</div>
-                            <div class="quantity-btn plus" data-item-id="d2" data-item-type="drink">+</div>
-                        </div>
-                    </div>
-                </div>
-                <div class="food-item" data-item-id="d3" data-item-type="drink" data-price="15000">
-                    <img src="images/Drinks/sprite.webp" class="food-img" alt="Sprite">
-                    <div class="food-info">
-                        <h3 class="food-title">Sprite</h3>
-                        <div class="food-price">15.000đ</div>
-                        <div class="quantity-controls">
-                            <div class="quantity-btn minus" data-item-id="d3" data-item-type="drink">-</div>
-                            <div class="quantity" id="qty-d3">0</div>
-                            <div class="quantity-btn plus" data-item-id="d3" data-item-type="drink">+</div>
-                        </div>
-                    </div>
-                </div>
-                <div class="food-item" data-item-id="d4" data-item-type="drink" data-price="10000">
-                    <img src="images/Drinks/nuocsuoi.jpg" class="food-img" alt="Nước Suối">
-                    <div class="food-info">
-                        <h3 class="food-title">Nước Suối</h3>
-                        <div class="food-price">10.000đ</div>
-                        <div class="quantity-controls">
-                            <div class="quantity-btn minus" data-item-id="d4" data-item-type="drink">-</div>
-                            <div class="quantity" id="qty-d4">0</div>
-                            <div class="quantity-btn plus" data-item-id="d4" data-item-type="drink">+</div>
-                        </div>
-                    </div>
-                </div>
-                <div class="food-item" data-item-id="d5" data-item-type="drink" data-price="25000">
-                    <img src="images/Drinks/tradao.avif" class="food-img" alt="Trà Đào">
-                    <div class="food-info">
-                        <h3 class="food-title">Trà Đào</h3>
-                        <div class="food-price">25.000đ</div>
-                        <div class="quantity-controls">
-                            <div class="quantity-btn minus" data-item-id="d5" data-item-type="drink">-</div>
-                            <div class="quantity" id="qty-d5">0</div>
-                            <div class="quantity-btn plus" data-item-id="d5" data-item-type="drink">+</div>
-                        </div>
-                    </div>
-                </div>
-            </div>
+            <div class="food-slider" id="drinkSlider"></div>
         </div>
         <div class="section-controls">
             <button id="drinkPrevBtn" class="control-btn" disabled>&larr; Trước</button>
@@ -345,7 +140,119 @@
         </div>
     </div>
 
+    <script>
+
+        // Hàm tạo các phần tử HTML từ dữ liệu
+        function generateItems() {
+            // Tạo combo items
+            const comboSlider = document.getElementById('comboSlider');
+            const comboDots = document.getElementById('comboDots');
+            comboSlider.innerHTML = '';
+            comboDots.innerHTML = '';
+
+            comboItems.forEach((combo, index) => {
+                const comboDiv = document.createElement('div');
+                comboDiv.classList.add('combo-item');
+                comboDiv.innerHTML = `
+                            <div class="combo-img-wrapper">
+                                <img src="${combo.img}" class="combo-img" alt="${combo.title}" loading="lazy">
+                            </div>
+                            <div class="combo-info">
+                                <h3 class="combo-title">${combo.title}</h3>
+                                <p class="combo-desc">${combo.desc}</p>
+                                <div class="combo-price">${combo.price.toLocaleString()}đ</div>
+                                <button class="quick-add-btn" data-combo-id="${combo.id}" data-combo-name="${combo.title}" data-combo-price="${combo.price}">Thêm vào giỏ</button>
+                            </div>
+                        `;
+                comboSlider.appendChild(comboDiv);
+
+                // Tạo dot cho combo
+                const dot = document.createElement('div');
+                dot.classList.add('combo-dot');
+                if (index === 0) dot.classList.add('active');
+                comboDots.appendChild(dot);
+            });
+
+            // Tạo main dishes
+            const mainDishSlider = document.getElementById('mainDishSlider');
+            mainDishSlider.innerHTML = '';
+            mainDishes.forEach(dish => {
+                const dishDiv = document.createElement('div');
+                dishDiv.classList.add('food-item');
+                dishDiv.setAttribute('data-item-id', dish.id);
+                dishDiv.setAttribute('data-item-type', 'main');
+                dishDiv.setAttribute('data-price', dish.price);
+                dishDiv.innerHTML = `
+                            <img src="${dish.img}" class="food-img" alt="${dish.title}">
+                            <div class="food-info">
+                                <h3 class="food-title">${dish.title}</h3>
+                                <div class="food-price">${dish.price.toLocaleString()}đ</div>
+                                <div class="quantity-controls">
+                                    <div class="quantity-btn minus" data-item-id="${dish.id}" data-item-type="main">-</div>
+                                    <div class="quantity" id="qty-${dish.id}">0</div>
+                                    <div class="quantity-btn plus" data-item-id="${dish.id}" data-item-type="main">+</div>
+                                </div>
+                            </div>
+                        `;
+                mainDishSlider.appendChild(dishDiv);
+            });
+
+            // Tạo side dishes
+            const sideSlider = document.getElementById('sideSlider');
+            sideSlider.innerHTML = '';
+            sideDishes.forEach(dish => {
+                const sideDiv = document.createElement('div');
+                sideDiv.classList.add('food-item');
+                sideDiv.setAttribute('data-item-id', dish.id);
+                sideDiv.setAttribute('data-item-type', 'side');
+                sideDiv.setAttribute('data-price', dish.price);
+                sideDiv.innerHTML = `
+                            <img src="${dish.img}" class="food-img" alt="${dish.title}">
+                            <div class="food-info">
+                                <h3 class="food-title">${dish.title}</h3>
+                                <div class="food-price">${dish.price.toLocaleString()}đ</div>
+                                <div class="quantity-controls">
+                                    <div class="quantity-btn minus" data-item-id="${dish.id}" data-item-type="side">-</div>
+                                    <div class="quantity" id="qty-${dish.id}">0</div>
+                                    <div class="quantity-btn plus" data-item-id="${dish.id}" data-item-type="side">+</div>
+                                </div>
+                            </div>
+                        `;
+                sideSlider.appendChild(sideDiv);
+            });
+
+            // Tạo drinks
+            const drinkSlider = document.getElementById('drinkSlider');
+            drinkSlider.innerHTML = '';
+            drinks.forEach(drink => {
+                const drinkDiv = document.createElement('div');
+                drinkDiv.classList.add('food-item');
+                drinkDiv.setAttribute('data-item-id', drink.id);
+                drinkDiv.setAttribute('data-item-type', 'drink');
+                drinkDiv.setAttribute('data-price', drink.price);
+                drinkDiv.innerHTML = `
+                            <img src="${drink.img}" class="food-img" alt="${drink.title}">
+                            <div class="food-info">
+                                <h3 class="food-title">${drink.title}</h3>
+                                <div class="food-price">${drink.price.toLocaleString()}đ</div>
+                                <div class="quantity-controls">
+                                    <div class="quantity-btn minus" data-item-id="${drink.id}" data-item-type="drink">-</div>
+                                    <div class="quantity" id="qty-${drink.id}">0</div>
+                                    <div class="quantity-btn plus" data-item-id="${drink.id}" data-item-type="drink">+</div>
+                                </div>
+                            </div>
+                        `;
+                drinkSlider.appendChild(drinkDiv);
+            });
+        }
+
+        // Chạy hàm tạo items khi DOM đã sẵn sàng
+        document.addEventListener('DOMContentLoaded', () => {
+            generateItems();
+        });
+    </script>
+    <script src="dataimage.js"></script>
     <script src="script.js"></script>
-    <script>(function () { function c() { var b = a.contentDocument || a.contentWindow.document; if (b) { var d = b.createElement('script'); d.innerHTML = "window.__CF$cv$params={r:'9373fc5fd82cbad4',t:'MTc0NTgxNjMyMC4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);"; b.getElementsByTagName('head')[0].appendChild(d) } } if (document.body) { var a = document.createElement('iframe'); a.height = 1; a.width = 1; a.style.position = 'absolute'; a.style.top = 0; a.style.left = 0; a.style.border = 'none'; a.style.visibility = 'hidden'; document.body.appendChild(a); if ('loading' !== document.readyState) c(); else if (window.addEventListener) document.addEventListener('DOMContentLoaded', c); else { var e = document.onreadystatechange || function () { }; document.onreadystatechange = function (b) { e(b); 'loading' !== document.readyState && (document.onreadystatechange = e, c()) } } } })();</script>
+    <script>(function () { function c() { var b = a.contentDocument || a.contentWindow.document; if (b) { var d = b.createElement('script'); d.innerHTML = "window.__CF$cv$params={r:'9374ae2f3d486751',t:'MTc0NTgyMzYwMy4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);"; b.getElementsByTagName('head')[0].appendChild(d) } } if (document.body) { var a = document.createElement('iframe'); a.height = 1; a.width = 1; a.style.position = 'absolute'; a.style.top = 0; a.style.left = 0; a.style.border = 'none'; a.style.visibility = 'hidden'; document.body.appendChild(a); if ('loading' !== document.readyState) c(); else if (window.addEventListener) document.addEventListener('DOMContentLoaded', c); else { var e = document.onreadystatechange || function () { }; document.onreadystatechange = function (b) { e(b); 'loading' !== document.readyState && (document.onreadystatechange = e, c()) } } } })();</script>
 </body>
 </html>
