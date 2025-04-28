@@ -187,12 +187,11 @@
         @media screen and (max-width: 600px) {
             .combo-img-wrapper {
                 height: 150px; /* Giảm chiều cao trên mobile */
+                pointer-events: none; /* Vô hiệu hóa mọi tương tác với ảnh */
             }
         }
 
-        .combo-item:hover .combo-img {
-            transform: scale(1.05); /* Phóng to nhẹ khi hover */
-        }
+
 
         .combo-item .control-btn {
             position: absolute;
@@ -475,6 +474,8 @@
             box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
             margin-bottom: 5px;
             height: 100%;
+            -webkit-tap-highlight-color: transparent; /* Loại bỏ highlight khi chạm */
+            user-select: none; /* Ngăn chọn text khi chạm */
         }
 
         .combo-img-wrapper {
@@ -492,6 +493,7 @@
             height: 100%;
             object-fit: cover;
             transition: transform 0.3s ease, opacity 0.5s ease;
+            pointer-events: none; /* Đảm bảo ảnh không bắt sự kiện touch */
         }
 
         .combo-info {
